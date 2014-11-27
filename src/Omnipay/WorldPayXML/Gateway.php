@@ -3,7 +3,6 @@
 namespace Omnipay\WorldPayXML;
 
 use Omnipay\Common\AbstractGateway;
-use Omnipay\WorldPayXML\Message\OrderRequest;
 
 /**
  * WorldPay XML Class

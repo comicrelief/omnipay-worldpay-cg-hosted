@@ -23,7 +23,7 @@
     },
     "require": {
         "guzzle/plugin-cookie": "~3.9",
-        "omnipay/common": "~2.0"
+        "omnipay/common": "~2.3"
     },
     "require-dev": {
         "omnipay/tests": "~2.0"

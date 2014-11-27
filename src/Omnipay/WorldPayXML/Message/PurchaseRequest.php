@@ -279,30 +279,6 @@ class PurchaseRequest extends AbstractRequest
     }
 
     /**
-     * Get user ip
-     *
-     * @access public
-     * @return string
-     */
-    public function getUserIP()
-    {
-        return $this->getParameter('userIP');
-    }
-
-    /**
-     * Set user ip
-     *
-     * @param string $value User ip
-     *
-     * @access public
-     * @return void
-     */
-    public function setUserIP($value)
-    {
-        return $this->setParameter('userIP', $value);
-    }
-
-    /**
      * Get data
      *
      * @access public
@@ -371,7 +347,7 @@ class PurchaseRequest extends AbstractRequest
         $address->addChild('countryCode', $this->getCard()->getCountry());
 
         $session = $payment->addChild('session');
-        $session->addAttribute('shopperIPAddress', $this->getUserIP());
+        $session->addAttribute('shopperIPAddress', $this->getClientIP());
         $session->addAttribute('id', $this->getSession());
 
         $paResponse = $this->getPaResponse();
