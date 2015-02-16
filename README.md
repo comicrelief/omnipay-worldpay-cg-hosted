@@ -14,7 +14,7 @@ add it to your `composer.json` file:
 ```json
 {
     "require": {
-        "tea-and-code/omnipay-worldpay-xml": "~1.0"
+        "teaandcode/omnipay-worldpay-xml": "~1.0"
     }
 }
 ```
