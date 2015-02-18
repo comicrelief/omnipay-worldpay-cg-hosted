@@ -15,11 +15,10 @@ class Response extends AbstractResponse
     /**
      * Constructor
      *
-     * @param \Omnipay\Common\Message\RequestInterface $request Request
-     * @param \SimpleXMLElement                        $data    Data
+     * @param RequestInterface $request Request
+     * @param string           $data    Data
      *
      * @access public
-     * @return Omnipay\WorldPayXML\Message\Response
      */
     public function __construct(RequestInterface $request, $data)
     {

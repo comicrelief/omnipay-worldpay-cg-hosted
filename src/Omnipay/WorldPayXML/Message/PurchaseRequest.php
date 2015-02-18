@@ -387,7 +387,7 @@ class PurchaseRequest extends AbstractRequest
      * @param \SimpleXMLElement $data Data
      *
      * @access public
-     * @return \Omnipay\WorldPayXML\Message\RedirectResponse
+     * @return RedirectResponse
      */
     public function sendData($data)
     {
