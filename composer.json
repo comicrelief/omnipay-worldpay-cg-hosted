@@ -22,7 +22,7 @@
         "psr-0": { "Omnipay\\WorldPayXML\\" : "src/" }
     },
     "require": {
-        "guzzle/plugin-cookie": "~3.9",
+        "guzzle/plugin-cookie": "~3.7",
         "omnipay/common": "~2.3"
     },
     "require-dev": {
