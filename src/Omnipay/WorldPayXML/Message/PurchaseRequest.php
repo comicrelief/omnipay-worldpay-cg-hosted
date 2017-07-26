@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\WorldpayCGHosted\Message;
+namespace Omnipay\WorldPayXML\Message;
 
 use Guzzle\Plugin\Cookie\Cookie;
 use Guzzle\Plugin\Cookie\CookiePlugin;
@@ -297,7 +297,7 @@ class PurchaseRequest extends AbstractRequest
         $order->addAttribute('orderCode', $this->getTransactionId());
         $order->addAttribute('installationId', $this->getInstallation());
 
-        $order->addChild('description', $this->getDescription() ?? 'Donation'); // todo PHP 5.3+ compat
+        $order->addChild('description', $this->getDescription() ?? 'Donation');
 
         $amount = $order->addChild('amount');
         $amount->addAttribute('value', $this->getAmountInteger());
@@ -365,16 +365,9 @@ class PurchaseRequest extends AbstractRequest
 //        }
 
 
-
         $browser = $shopper->addChild('browser');
         $browser->addChild('acceptHeader', $this->getAcceptHeader());
         $browser->addChild('userAgentHeader', $this->getUserAgentHeader());
-
-        $echoData = $this->getRedirectEcho();
-
-        if (!empty($echoData)) {
-            $order->addChild('echoData', $echoData);
-        }
 
         return $data;
     }
@@ -440,6 +433,19 @@ class PurchaseRequest extends AbstractRequest
         $httpResponse = $this->httpClient
             ->post($this->getEndpoint(), $headers, $xml)
             ->send();
+
+
+//        echo PHP_EOL . 'REQUEST' . PHP_EOL;
+//
+//        echo $xml;
+//
+//        echo PHP_EOL . 'RESPONSE' . PHP_EOL;
+//
+//        print_r($httpResponse->getHeaders());
+//        echo $httpResponse->getBody();
+//        echo PHP_EOL . 'END RESPONSE' . PHP_EOL;
+//        exit;
+
 
         return $this->response = new RedirectResponse(
             $this,
