@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\WorldPayXML\Message;
+namespace Omnipay\WorldpayCGHosted\Message;
 
 use Omnipay\Common\Message\RedirectResponseInterface;
 
@@ -61,7 +61,7 @@ class RedirectResponse extends Response implements RedirectResponseInterface
      */
     public function getRedirectMethod()
     {
-        return 'POST';
+        return 'GET';
     }
 
     /**
@@ -72,6 +72,6 @@ class RedirectResponse extends Response implements RedirectResponseInterface
      */
     public function getRedirectUrl()
     {
-        return $this->data->requestInfo->request3DSecure->issuerURL;
+        return $this->data->reference->__toString();
     }
 }

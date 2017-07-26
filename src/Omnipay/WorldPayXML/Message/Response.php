@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\WorldPayXML\Message;
+namespace Omnipay\WorldpayCGHosted\Message;
 
 use DOMDocument;
 use Omnipay\Common\Exception\InvalidResponseException;
@@ -138,11 +138,7 @@ class Response extends AbstractResponse
      */
     public function isRedirect()
     {
-        if (isset($this->data->requestInfo->request3DSecure->issuerURL)) {
-            return true;
-        }
-
-        return false;
+        return (isset($this->data->reference));
     }
 
     /**
