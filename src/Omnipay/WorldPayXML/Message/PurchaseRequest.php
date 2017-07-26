@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\WorldPayXML\Message;
+namespace Omnipay\WorldpayCGHosted\Message;
 
 use Guzzle\Plugin\Cookie\Cookie;
 use Guzzle\Plugin\Cookie\CookiePlugin;
@@ -13,7 +13,7 @@ use Omnipay\Common\Message\AbstractRequest;
  */
 class PurchaseRequest extends AbstractRequest
 {
-    const EP_HOST_LIVE = 'https://secure.worldpay.com';
+    const EP_HOST_LIVE = 'https://secure.worldpay.commmmm.i.will.fail'; // todo
     const EP_HOST_TEST = 'https://secure-test.worldpay.com';
 
     const EP_PATH = '/jsp/merchant/xml/paymentService.jsp';
@@ -286,8 +286,8 @@ class PurchaseRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('amount', 'card');
-        $this->getCard()->validate();
+        $this->validate('amount');
+//        $this->getCard()->validate();
 
         $data = new \SimpleXMLElement('<paymentService />');
         $data->addAttribute('version', self::VERSION);
@@ -297,76 +297,74 @@ class PurchaseRequest extends AbstractRequest
         $order->addAttribute('orderCode', $this->getTransactionId());
         $order->addAttribute('installationId', $this->getInstallation());
 
-        $order->addChild('description', $this->getDescription());
+        $order->addChild('description', $this->getDescription() ?? 'Donation'); // todo PHP 5.3+ compat
 
         $amount = $order->addChild('amount');
         $amount->addAttribute('value', $this->getAmountInteger());
         $amount->addAttribute('currencyCode', $this->getCurrency());
         $amount->addAttribute('exponent', $this->getCurrencyDecimalPlaces());
 
-        $payment = $order->addChild('paymentDetails');
 
-        $codes = array(
-            CreditCard::BRAND_AMEX        => 'AMEX-SSL',
-            CreditCard::BRAND_DANKORT     => 'DANKORT-SSL',
-            CreditCard::BRAND_DINERS_CLUB => 'DINERS-SSL',
-            CreditCard::BRAND_DISCOVER    => 'DISCOVER-SSL',
-            CreditCard::BRAND_JCB         => 'JCB-SSL',
-            CreditCard::BRAND_LASER       => 'LASER-SSL',
-            CreditCard::BRAND_MAESTRO     => 'MAESTRO-SSL',
-            CreditCard::BRAND_MASTERCARD  => 'ECMC-SSL',
-            CreditCard::BRAND_SWITCH      => 'MAESTRO-SSL',
-            CreditCard::BRAND_VISA        => 'VISA-SSL'
-        );
+        $order->addChild('paymentMethodMask')->addChild('include')->addAttribute('code', 'ALL');
 
-        $card = $payment->addChild($codes[$this->getCard()->getBrand()]);
-        $card->addChild('cardNumber', $this->getCard()->getNumber());
+//        echo 'card brand ' . print_r($this->getCard());
 
-        $expiry = $card->addChild('expiryDate')->addChild('date');
-        $expiry->addAttribute('month', $this->getCard()->getExpiryDate('m'));
-        $expiry->addAttribute('year', $this->getCard()->getExpiryDate('Y'));
+//        $card = $payment->addChild($codes[$this->getCard()->getBrand()]);
+//        $card->addChild('cardNumber', $this->getCard()->getNumber());
 
-        $card->addChild('cardHolderName', $this->getCard()->getName());
+//        $expiry = $card->addChild('expiryDate')->addChild('date');
+//        $expiry->addAttribute('month', $this->getCard()->getExpiryDate('m'));
+//        $expiry->addAttribute('year', $this->getCard()->getExpiryDate('Y'));
 
-        if (
-                $this->getCard()->getBrand() == CreditCard::BRAND_MAESTRO
-             || $this->getCard()->getBrand() == CreditCard::BRAND_SWITCH
-        ) {
-            $start = $card->addChild('startDate')->addChild('date');
-            $start->addAttribute('month', $this->getCard()->getStartDate('m'));
-            $start->addAttribute('year', $this->getCard()->getStartDate('Y'));
+//        $card->addChild('cardHolderName', $this->getCard()->getName());
 
-            $card->addChild('issueNumber', $this->getCard()->getIssueNumber());
+//        if (
+//            $this->getCard()->getBrand() == CreditCard::BRAND_MAESTRO
+//            || $this->getCard()->getBrand() == CreditCard::BRAND_SWITCH
+//        ) {
+//            $start = $card->addChild('startDate')->addChild('date');
+//            $start->addAttribute('month', $this->getCard()->getStartDate('m'));
+//            $start->addAttribute('year', $this->getCard()->getStartDate('Y'));
+//
+//            $card->addChild('issueNumber', $this->getCard()->getIssueNumber());
+//        }
+//
+//        $card->addChild('cvc', $this->getCard()->getCvv());
+
+        $shopper = $order->addChild('shopper');
+        $email = $this->getCard()->getEmail();
+        if (!empty($email)) {
+            $shopper->addChild('shopperEmailAddress', $email);
         }
 
-        $card->addChild('cvc', $this->getCard()->getCvv());
+        if ($this->getCard()) {
+            $address = $order->addChild('billingAddress')->addChild('address');
+            $address->addChild('firstName', $this->getCard()->getFirstName());
+            $address->addChild('lastName', $this->getCard()->getLastName());
+            $address->addChild('address1', $this->getCard()->getAddress1());
+            $address->addChild('address2', $this->getCard()->getAddress2());
+            $address->addChild('postalCode', $this->getCard()->getPostcode());
+            $address->addChild('city', $this->getCard()->getCity());
+            $address->addChild('state', $this->getCard()->getState());
+            $address->addChild('countryCode', $this->getCard()->getCountry());
+        }
 
-        $address = $card->addChild('cardAddress')->addChild('address');
-        $address->addChild('street', $this->getCard()->getAddress1());
-        $address->addChild('postalCode', $this->getCard()->getPostcode());
-        $address->addChild('countryCode', $this->getCard()->getCountry());
 
-        $session = $payment->addChild('session');
-        $session->addAttribute('shopperIPAddress', $this->getClientIP());
-        $session->addAttribute('id', $this->getSession());
 
         $paResponse = $this->getPaResponse();
 
-        if (!empty($paResponse)) {
-            $info3DSecure = $payment->addChild('info3DSecure');
-            $info3DSecure->addChild('paResponse', $paResponse);
-        }
 
-        $shopper = $order->addChild('shopper');
+        // TODO if paResponse is not empty, the whole order contents should be (info3DSecure, session) instead of everything else
+//        if (empty($paResponse)) {
+//            $session = $order->addChild('session'); // Empty tag is valid but setting an empty ID attr isn't
+//            $session->addAttribute('shopperIPAddress', $this->getClientIP());
+//            $session->addAttribute('id', $this->getSession());
+//        } else {
+//            $info3DSecure = $order->addChild('info3DSecure');
+//            $info3DSecure->addChild('paResponse', $paResponse);
+//        }
 
-        $email = $this->getCard()->getEmail();
 
-        if (!empty($email)) {
-            $shopper->addChild(
-                'shopperEmailAddress',
-                $this->getCard()->getEmail()
-            );
-        }
 
         $browser = $shopper->addChild('browser');
         $browser->addChild('acceptHeader', $this->getAcceptHeader());
@@ -447,6 +445,22 @@ class PurchaseRequest extends AbstractRequest
             $this,
             $httpResponse->getBody()
         );
+    }
+
+    /**
+     * Pre-selects the card type being used and bypasses the card type selection screen.
+     * Must match one of: https://support.worldpay.com/support/kb/bg/customisingadvanced/custa9102.html
+     *
+     * @param string
+     */
+    public function getPaymentType()
+    {
+        return $this->getParameter('paymentType');
+    }
+
+    public function setPaymentType($value)
+    {
+        return $this->setParameter('paymentType', $value);
     }
 
     /**
