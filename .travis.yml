@@ -5,4 +5,11 @@ php:
   - '7.1'
 
 install:
-- composer install
+  - composer install
+
+git:
+  depth: 3
+
+cache:
+  directories:
+    - $HOME/.composer/cache
