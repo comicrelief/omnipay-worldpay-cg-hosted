@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\WorldPayXML\Message;
+namespace Omnipay\WorldpayCGHosted\Message;
 
 use Guzzle\Plugin\Cookie\Cookie;
 use Guzzle\Plugin\Cookie\CookiePlugin;
@@ -297,7 +297,7 @@ class PurchaseRequest extends AbstractRequest
         $order->addAttribute('orderCode', $this->getTransactionId());
         $order->addAttribute('installationId', $this->getInstallation());
 
-        $order->addChild('description', $this->getDescription() ?? 'Donation');
+        $order->addChild('description', $this->getDescription() ?? 'Donation'); // todo PHP 5.3+ compat
 
         $amount = $order->addChild('amount');
         $amount->addAttribute('value', $this->getAmountInteger());
@@ -363,6 +363,7 @@ class PurchaseRequest extends AbstractRequest
 //            $info3DSecure = $order->addChild('info3DSecure');
 //            $info3DSecure->addChild('paResponse', $paResponse);
 //        }
+
 
 
         $browser = $shopper->addChild('browser');
