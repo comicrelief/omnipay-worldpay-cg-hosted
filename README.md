@@ -1,6 +1,17 @@
-# Omnipay: WorldPay XML Direct
+# Omnipay: Worldpay Hosted Corporate Gateway (XML)
 
-**WorldPay XML Direct driver for the Omnipay PHP payment processing library**
+## NOT PRODUCTION READY!
+
+**WORK IN PROGRESS July 2017**
+
+This fork from teaandcode/omnipay-worldpay-xml is in active dev, and is not yet tested.
+
+The below notes are not updated yet.
+
+--
+
+
+**WorldPay XML Hosted driver for the Omnipay PHP payment processing library**
 
 [Omnipay](https://github.com/omnipay/omnipay) is a framework agnostic,
 multi-gateway payment processing library for PHP 5.3+. This package implements

@@ -1,8 +1,9 @@
 {
-    "name": "teaandcode/omnipay-worldpay-xml",
+    "name": "comicrelief/omnipay-worldpay-cg-hosted",
     "type": "library",
-    "description": "WorldPay XML driver for the Omnipay payment processing library",
+    "description": "WorldPay Hosted Corporate Gateway driver for the Omnipay payment processing library",
     "keywords": [
+        "corporate",
         "gateway",
         "merchant",
         "omnipay",
@@ -10,16 +11,20 @@
         "worldpay",
         "payment"
     ],
-    "homepage": "https://github.com/teaandcode/omnipay-worldpay-xml",
+    "homepage": "https://github.com/comicrelief/omnipay-worldpay-cg-hosted",
     "license": "MIT",
     "authors": [
         {
             "name": "Dave Nash",
             "email": "dave.nash@teaandcode.com"
+        },
+        {
+            "name": "Noel Light-Hilary",
+            "email": "n.light-hilary@comicrelief.com"
         }
     ],
     "autoload": {
-        "psr-0": { "Omnipay\\WorldPayXML\\" : "src/" }
+        "psr-0": { "Omnipay\\WorldpayCGHosted\\" : "src/" }
     },
     "require": {
         "guzzle/plugin-cookie": "~3.7",
