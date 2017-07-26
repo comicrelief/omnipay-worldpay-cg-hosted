@@ -30,12 +30,12 @@ class Gateway extends AbstractGateway
      */
     public function getDefaultParameters()
     {
-        return array(
+        return [
             'installation' => '',
             'merchant'     => '',
             'password'     => '',
             'testMode'     => false,
-        );
+        ];
     }
 
     /**
@@ -159,54 +159,6 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Get redirect cookie
-     *
-     * @access public
-     * @return string
-     */
-    public function getRedirectCookie()
-    {
-        return $this->getParameter('redirect_cookie');
-    }
-
-    /**
-     * Set redirect cookie
-     *
-     * @param string $value Redirect cookie value
-     *
-     * @access public
-     * @return void
-     */
-    public function setRedirectCookie($value)
-    {
-        return $this->setParameter('redirect_cookie', $value);
-    }
-
-    /**
-     * Get redirect echo
-     *
-     * @access public
-     * @return string
-     */
-    public function getRedirectEcho()
-    {
-        return $this->getParameter('redirect_echo');
-    }
-
-    /**
-     * Set redirect echo
-     *
-     * @param string $value Redirect echo value
-     *
-     * @access public
-     * @return void
-     */
-    public function setRedirectEcho($value)
-    {
-        return $this->setParameter('redirect_echo', $value);
-    }
-
-    /**
      * Get session
      *
      * @access public
@@ -286,7 +238,7 @@ class Gateway extends AbstractGateway
      * @access public
      * @return \Omnipay\WorldpayCGHosted\Message\PurchaseRequest
      */
-    public function purchase(array $parameters = array())
+    public function purchase(array $parameters = [])
     {
         return $this->createRequest(
             '\Omnipay\WorldpayCGHosted\Message\PurchaseRequest',

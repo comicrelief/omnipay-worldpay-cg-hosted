@@ -44,7 +44,7 @@ class Response extends AbstractResponse
      */
     public function getMessage()
     {
-        $codes = array(
+        $codes = [
             0  => 'AUTHORISED',
             2  => 'REFERRED',
             3  => 'INVALID ACCEPTOR',
@@ -90,7 +90,7 @@ class Response extends AbstractResponse
             92 => 'CREDITCARD TYPE NOT PROCESSED BY ACQUIRER',
             94 => 'DUPLICATE REQUEST ERROR',
             97 => 'SECURITY BREACH'
-        );
+        ];
 
         $message = 'PENDING';
 

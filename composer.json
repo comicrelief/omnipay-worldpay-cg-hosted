@@ -27,8 +27,8 @@
         "psr-0": { "Omnipay\\WorldpayCGHosted\\" : "src/" }
     },
     "require": {
-        "guzzle/plugin-cookie": "~3.7",
-        "omnipay/common": "~2.3"
+        "php": "^5.6|^7",
+        "omnipay/common": "~2.5"
     },
     "require-dev": {
         "omnipay/tests": "~2.0"

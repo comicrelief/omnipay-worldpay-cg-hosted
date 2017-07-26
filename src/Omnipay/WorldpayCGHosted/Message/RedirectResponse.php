@@ -10,36 +10,6 @@ use Omnipay\Common\Message\RedirectResponseInterface;
 class RedirectResponse extends Response implements RedirectResponseInterface
 {
     /**
-     * Get redirect cookie
-     *
-     * @access public
-     * @return string
-     */
-    public function getRedirectCookie()
-    {
-        $cookieJar = $this->request->getCookiePlugin()->getCookieJar();
-
-        foreach ($cookieJar->all() as $cookie) {
-            if ($cookie->getName() == 'machine') {
-                return $cookie->getValue();
-            }
-        }
-
-        return '';
-    }
-
-    /**
-     * Get redirect echo
-     *
-     * @access public
-     * @return string
-     */
-    public function getRedirectEcho()
-    {
-        return $this->data->echoData;
-    }
-
-    /**
      * Get redirect data
      *
      * @access public
@@ -47,10 +17,10 @@ class RedirectResponse extends Response implements RedirectResponseInterface
      */
     public function getRedirectData()
     {
-        return array(
+        return [
             'PaReq'   => $this->data->requestInfo->request3DSecure->paRequest,
             'TermUrl' => $this->request->getTermUrl()
-        );
+        ];
     }
 
     /**

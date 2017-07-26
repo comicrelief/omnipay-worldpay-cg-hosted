@@ -2,10 +2,6 @@
 
 namespace Omnipay\WorldpayCGHosted\Message;
 
-use Guzzle\Plugin\Cookie\Cookie;
-use Guzzle\Plugin\Cookie\CookiePlugin;
-use Guzzle\Plugin\Cookie\CookieJar\ArrayCookieJar;
-use Omnipay\Common\CreditCard;
 use Omnipay\Common\Message\AbstractRequest;
 
 /**
@@ -19,13 +15,6 @@ class PurchaseRequest extends AbstractRequest
     const EP_PATH = '/jsp/merchant/xml/paymentService.jsp';
 
     const VERSION = '1.4';
-
-    /**
-     * @var \Guzzle\Plugin\Cookie\CookiePlugin
-     *
-     * @access protected
-     */
-    protected $cookiePlugin;
 
     /**
      * Get accept header
@@ -49,17 +38,6 @@ class PurchaseRequest extends AbstractRequest
     public function setAcceptHeader($value)
     {
         return $this->setParameter('acceptHeader', $value);
-    }
-
-    /**
-     * Get cookie plugin
-     *
-     * @access public
-     * @return \Guzzle\Plugin\Cookie\CookiePlugin
-     */
-    public function getCookiePlugin()
-    {
-        return $this->cookiePlugin;
     }
 
     /**
@@ -159,54 +137,6 @@ class PurchaseRequest extends AbstractRequest
     }
 
     /**
-     * Get redirect cookie
-     *
-     * @access public
-     * @return string
-     */
-    public function getRedirectCookie()
-    {
-        return $this->getParameter('redirect_cookie');
-    }
-
-    /**
-     * Set redirect cookie
-     *
-     * @param string $value Password
-     *
-     * @access public
-     * @return void
-     */
-    public function setRedirectCookie($value)
-    {
-        return $this->setParameter('redirect_cookie', $value);
-    }
-
-    /**
-     * Get redirect echo
-     *
-     * @access public
-     * @return string
-     */
-    public function getRedirectEcho()
-    {
-        return $this->getParameter('redirect_echo');
-    }
-
-    /**
-     * Set redirect echo
-     *
-     * @param string $value Password
-     *
-     * @access public
-     * @return void
-     */
-    public function setRedirectEcho($value)
-    {
-        return $this->setParameter('redirect_echo', $value);
-    }
-
-    /**
      * Get session
      *
      * @access public
@@ -297,7 +227,8 @@ class PurchaseRequest extends AbstractRequest
         $order->addAttribute('orderCode', $this->getTransactionId());
         $order->addAttribute('installationId', $this->getInstallation());
 
-        $order->addChild('description', $this->getDescription() ?? 'Donation'); // todo PHP 5.3+ compat
+        $description = $this->getDescription() ? $this->getDescription() : 'Donation';
+        $order->addChild('description', $description);
 
         $amount = $order->addChild('amount');
         $amount->addAttribute('value', $this->getAmountInteger());
@@ -401,33 +332,10 @@ class PurchaseRequest extends AbstractRequest
             $this->getMerchant() . ':' . $this->getPassword()
         );
 
-        $headers = array(
+        $headers = [
             'Authorization' => 'Basic ' . $authorisation,
             'Content-Type'  => 'text/xml; charset=utf-8'
-        );
-
-        $cookieJar = new ArrayCookieJar();
-
-        $redirectCookie = $this->getRedirectCookie();
-
-        if (!empty($redirectCookie)) {
-            $url = parse_url($this->getEndpoint());
-
-            $cookieJar->add(
-                new Cookie(
-                    array(
-                        'domain' => $url['host'],
-                        'name'   => 'machine',
-                        'path'   => '/',
-                        'value'  => $redirectCookie
-                    )
-                )
-            );
-        }
-
-        $this->cookiePlugin = new CookiePlugin($cookieJar);
-
-        $this->httpClient->addSubscriber($this->cookiePlugin);
+        ];
 
         $xml = $document->saveXML();
 
