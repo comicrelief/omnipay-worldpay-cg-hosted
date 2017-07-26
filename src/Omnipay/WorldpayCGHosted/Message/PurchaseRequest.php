@@ -2,10 +2,7 @@
 
 namespace Omnipay\WorldpayCGHosted\Message;
 
-use Guzzle\Plugin\Cookie\Cookie;
-use Guzzle\Plugin\Cookie\CookiePlugin;
-use Guzzle\Plugin\Cookie\CookieJar\ArrayCookieJar;
-use Omnipay\Common\CreditCard;
+use GuzzleHttp\Cookie\CookieJar;
 use Omnipay\Common\Message\AbstractRequest;
 
 /**
@@ -19,13 +16,6 @@ class PurchaseRequest extends AbstractRequest
     const EP_PATH = '/jsp/merchant/xml/paymentService.jsp';
 
     const VERSION = '1.4';
-
-    /**
-     * @var \Guzzle\Plugin\Cookie\CookiePlugin
-     *
-     * @access protected
-     */
-    protected $cookiePlugin;
 
     /**
      * Get accept header
@@ -49,17 +39,6 @@ class PurchaseRequest extends AbstractRequest
     public function setAcceptHeader($value)
     {
         return $this->setParameter('acceptHeader', $value);
-    }
-
-    /**
-     * Get cookie plugin
-     *
-     * @access public
-     * @return \Guzzle\Plugin\Cookie\CookiePlugin
-     */
-    public function getCookiePlugin()
-    {
-        return $this->cookiePlugin;
     }
 
     /**
@@ -297,7 +276,8 @@ class PurchaseRequest extends AbstractRequest
         $order->addAttribute('orderCode', $this->getTransactionId());
         $order->addAttribute('installationId', $this->getInstallation());
 
-        $order->addChild('description', $this->getDescription() ?? 'Donation'); // todo PHP 5.3+ compat
+        $description = $this->getDescription() ? $this->getDescription() : 'Donation';
+        $order->addChild('description', $description);
 
         $amount = $order->addChild('amount');
         $amount->addAttribute('value', $this->getAmountInteger());
@@ -401,33 +381,19 @@ class PurchaseRequest extends AbstractRequest
             $this->getMerchant() . ':' . $this->getPassword()
         );
 
-        $headers = array(
+        $headers = [
             'Authorization' => 'Basic ' . $authorisation,
             'Content-Type'  => 'text/xml; charset=utf-8'
-        );
-
-        $cookieJar = new ArrayCookieJar();
+        ];
 
         $redirectCookie = $this->getRedirectCookie();
-
         if (!empty($redirectCookie)) {
             $url = parse_url($this->getEndpoint());
-
-            $cookieJar->add(
-                new Cookie(
-                    array(
-                        'domain' => $url['host'],
-                        'name'   => 'machine',
-                        'path'   => '/',
-                        'value'  => $redirectCookie
-                    )
-                )
-            );
+            $cookiesValue = CookieJar::fromArray(['machine' => $redirectCookie], $url['host']);
+            $this->httpClient->setConfig([
+                'cookies' => $cookiesValue,
+            ]);
         }
-
-        $this->cookiePlugin = new CookiePlugin($cookieJar);
-
-        $this->httpClient->addSubscriber($this->cookiePlugin);
 
         $xml = $document->saveXML();
 
@@ -452,6 +418,15 @@ class PurchaseRequest extends AbstractRequest
             $this,
             $httpResponse->getBody()
         );
+    }
+
+    public function getCookies()
+    {
+        if (!($cookies = $this->httpClient->getConfig('cookies'))) {
+            return [];
+        }
+
+        return $cookies;
     }
 
     /**
