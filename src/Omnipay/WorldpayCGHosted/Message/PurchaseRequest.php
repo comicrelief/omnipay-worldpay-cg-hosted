@@ -2,7 +2,6 @@
 
 namespace Omnipay\WorldpayCGHosted\Message;
 
-use GuzzleHttp\Cookie\CookieJar;
 use Omnipay\Common\Message\AbstractRequest;
 
 /**
@@ -135,54 +134,6 @@ class PurchaseRequest extends AbstractRequest
     public function setPassword($value)
     {
         return $this->setParameter('password', $value);
-    }
-
-    /**
-     * Get redirect cookie
-     *
-     * @access public
-     * @return string
-     */
-    public function getRedirectCookie()
-    {
-        return $this->getParameter('redirect_cookie');
-    }
-
-    /**
-     * Set redirect cookie
-     *
-     * @param string $value Password
-     *
-     * @access public
-     * @return void
-     */
-    public function setRedirectCookie($value)
-    {
-        return $this->setParameter('redirect_cookie', $value);
-    }
-
-    /**
-     * Get redirect echo
-     *
-     * @access public
-     * @return string
-     */
-    public function getRedirectEcho()
-    {
-        return $this->getParameter('redirect_echo');
-    }
-
-    /**
-     * Set redirect echo
-     *
-     * @param string $value Password
-     *
-     * @access public
-     * @return void
-     */
-    public function setRedirectEcho($value)
-    {
-        return $this->setParameter('redirect_echo', $value);
     }
 
     /**
@@ -386,15 +337,6 @@ class PurchaseRequest extends AbstractRequest
             'Content-Type'  => 'text/xml; charset=utf-8'
         ];
 
-        $redirectCookie = $this->getRedirectCookie();
-        if (!empty($redirectCookie)) {
-            $url = parse_url($this->getEndpoint());
-            $cookiesValue = CookieJar::fromArray(['machine' => $redirectCookie], $url['host']);
-            $this->httpClient->setConfig([
-                'cookies' => $cookiesValue,
-            ]);
-        }
-
         $xml = $document->saveXML();
 
         $httpResponse = $this->httpClient
@@ -418,15 +360,6 @@ class PurchaseRequest extends AbstractRequest
             $this,
             $httpResponse->getBody()
         );
-    }
-
-    public function getCookies()
-    {
-        if (!($cookies = $this->httpClient->getConfig('cookies'))) {
-            return [];
-        }
-
-        return $cookies;
     }
 
     /**

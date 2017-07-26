@@ -2,7 +2,6 @@
 
 namespace Omnipay\WorldpayCGHosted\Message;
 
-use GuzzleHttp\Cookie\SessionCookieJar;
 use Omnipay\Common\Message\RedirectResponseInterface;
 
 /**
@@ -10,43 +9,6 @@ use Omnipay\Common\Message\RedirectResponseInterface;
  */
 class RedirectResponse extends Response implements RedirectResponseInterface
 {
-    /**
-     * Get redirect cookie
-     *
-     * @access public
-     * @return string
-     */
-    public function getRedirectCookie()
-    {
-        if (!method_exists($this->request, 'getCookies')) {
-            return '';
-        }
-
-        foreach ($this->request->getCookies() as $cookieName => $cookieValue) {
-
-            var_dump($cookieValue);
-            exit;
-
-            /** @var SessionCookieJar $cookie */
-            if ($cookieName === 'machine') {
-                return $cookieValue;
-            }
-        }
-
-        return '';
-    }
-
-    /**
-     * Get redirect echo
-     *
-     * @access public
-     * @return string
-     */
-    public function getRedirectEcho()
-    {
-        return $this->data->echoData;
-    }
-
     /**
      * Get redirect data
      *
