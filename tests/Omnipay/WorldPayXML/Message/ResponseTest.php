@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\WorldPayXML\Message;
+namespace Omnipay\WorldpayCGHosted\Message;
 
 use Omnipay\Tests\TestCase;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\WorldPayXML;
+namespace Omnipay\WorldpayCGHosted;
 
 use Omnipay\Common\AbstractGateway;
 
@@ -19,7 +19,7 @@ class Gateway extends AbstractGateway
      */
     public function getName()
     {
-        return 'WorldPayXML';
+        return 'WorldpayCGHosted';
     }
 
     /**
@@ -284,12 +284,12 @@ class Gateway extends AbstractGateway
      * @param array $parameters Parameters
      *
      * @access public
-     * @return \Omnipay\WorldPayXML\Message\PurchaseRequest
+     * @return \Omnipay\WorldpayCGHosted\Message\PurchaseRequest
      */
     public function purchase(array $parameters = array())
     {
         return $this->createRequest(
-            '\Omnipay\WorldPayXML\Message\PurchaseRequest',
+            '\Omnipay\WorldpayCGHosted\Message\PurchaseRequest',
             $parameters
         );
     }

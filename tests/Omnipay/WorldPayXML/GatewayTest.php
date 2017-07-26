@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\WorldPayXML;
+namespace Omnipay\WorldpayCGHosted;
 
 use Omnipay\Common\CreditCard;
 use Omnipay\Tests\GatewayTestCase;
