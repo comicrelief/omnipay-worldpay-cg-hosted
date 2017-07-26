@@ -448,22 +448,6 @@ class PurchaseRequest extends AbstractRequest
     }
 
     /**
-     * Pre-selects the card type being used and bypasses the card type selection screen.
-     * Must match one of: https://support.worldpay.com/support/kb/bg/customisingadvanced/custa9102.html
-     *
-     * @param string
-     */
-    public function getPaymentType()
-    {
-        return $this->getParameter('paymentType');
-    }
-
-    public function setPaymentType($value)
-    {
-        return $this->setParameter('paymentType', $value);
-    }
-
-    /**
      * Get endpoint
      *
      * Returns endpoint depending on test mode
