@@ -72,6 +72,9 @@ class RedirectResponse extends Response implements RedirectResponseInterface
      */
     public function getRedirectUrl()
     {
+        // TODO when we use this result we should be able to append e.g. &successURL=... GET params. Need to decide
+        // where's best for this to live.
+
         return $this->data->reference->__toString();
     }
 }
