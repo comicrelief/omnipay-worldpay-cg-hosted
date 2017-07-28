@@ -122,5 +122,10 @@ class GatewayTest extends GatewayTestCase
         $this->assertEquals('LONDON', $order->billingAddress->address->city);
         $this->assertEquals('', $order->billingAddress->address->state);
         $this->assertEquals('GB', $order->billingAddress->address->countryCode);
+
+        $this->assertEquals($this->parameters['returnUrl'], $purchase->getReturnUrl());
+        $this->assertEquals($this->parameters['failureUrl'], $purchase->getFailureUrl());
+        $this->assertEquals($this->parameters['cancelUrl'], $purchase->getCancelUrl());
+        $this->assertEquals($this->parameters['notifyUrl'], $purchase->getNotifyUrl());
     }
 }
