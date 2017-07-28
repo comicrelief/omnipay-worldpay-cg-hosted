@@ -2,6 +2,7 @@
 
 namespace Omnipay\WorldpayCGHosted\Message;
 
+use Omnipay\Common\CreditCard;
 use Omnipay\Common\Message\AbstractRequest;
 
 /**
@@ -33,7 +34,7 @@ class PurchaseRequest extends AbstractRequest
      * @param string $value Accept header
      *
      * @access public
-     * @return void
+     * @return AbstractRequest
      */
     public function setAcceptHeader($value)
     {
@@ -57,7 +58,7 @@ class PurchaseRequest extends AbstractRequest
      * @param string $value Installation
      *
      * @access public
-     * @return void
+     * @return AbstractRequest
      */
     public function setInstallation($value)
     {
@@ -81,7 +82,7 @@ class PurchaseRequest extends AbstractRequest
      * @param string $value Merchant
      *
      * @access public
-     * @return void
+     * @return AbstractRequest
      */
     public function setMerchant($value)
     {
@@ -105,7 +106,7 @@ class PurchaseRequest extends AbstractRequest
      * @param string $value Pa response
      *
      * @access public
-     * @return void
+     * @return AbstractRequest
      */
     public function setPaResponse($value)
     {
@@ -129,7 +130,7 @@ class PurchaseRequest extends AbstractRequest
      * @param string $value Password
      *
      * @access public
-     * @return void
+     * @return AbstractRequest
      */
     public function setPassword($value)
     {
@@ -153,7 +154,7 @@ class PurchaseRequest extends AbstractRequest
      * @param string $value Session
      *
      * @access public
-     * @return void
+     * @return AbstractRequest
      */
     public function setSession($value)
     {
@@ -177,7 +178,7 @@ class PurchaseRequest extends AbstractRequest
      * @param string $value Term url
      *
      * @access public
-     * @return void
+     * @return AbstractRequest
      */
     public function setTermUrl($value)
     {
@@ -201,11 +202,28 @@ class PurchaseRequest extends AbstractRequest
      * @param string $value User agent header
      *
      * @access public
-     * @return void
+     * @return AbstractRequest
      */
     public function setUserAgentHeader($value)
     {
         return $this->setParameter('userAgentHeader', $value);
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentType()
+    {
+        return $this->getParameter('paymentType');
+    }
+
+    /**
+     * @param string $value
+     * @return AbstractRequest
+     */
+    public function setPaymentType($value)
+    {
+        return $this->setParameter('paymentType', $value);
     }
 
     /**
@@ -217,88 +235,60 @@ class PurchaseRequest extends AbstractRequest
     public function getData()
     {
         $this->validate('amount');
-//        $this->getCard()->validate();
 
         $data = new \SimpleXMLElement('<paymentService />');
         $data->addAttribute('version', self::VERSION);
         $data->addAttribute('merchantCode', $this->getMerchant());
 
         $order = $data->addChild('submit')->addChild('order');
-        $order->addAttribute('orderCode', $this->getTransactionId());
-        $order->addAttribute('installationId', $this->getInstallation());
-
-        $description = $this->getDescription() ? $this->getDescription() : 'Donation';
-        $order->addChild('description', $description);
-
-        $amount = $order->addChild('amount');
-        $amount->addAttribute('value', $this->getAmountInteger());
-        $amount->addAttribute('currencyCode', $this->getCurrency());
-        $amount->addAttribute('exponent', $this->getCurrencyDecimalPlaces());
-
-
-        $order->addChild('paymentMethodMask')->addChild('include')->addAttribute('code', 'ALL');
-
-//        echo 'card brand ' . print_r($this->getCard());
-
-//        $card = $payment->addChild($codes[$this->getCard()->getBrand()]);
-//        $card->addChild('cardNumber', $this->getCard()->getNumber());
-
-//        $expiry = $card->addChild('expiryDate')->addChild('date');
-//        $expiry->addAttribute('month', $this->getCard()->getExpiryDate('m'));
-//        $expiry->addAttribute('year', $this->getCard()->getExpiryDate('Y'));
-
-//        $card->addChild('cardHolderName', $this->getCard()->getName());
-
-//        if (
-//            $this->getCard()->getBrand() == CreditCard::BRAND_MAESTRO
-//            || $this->getCard()->getBrand() == CreditCard::BRAND_SWITCH
-//        ) {
-//            $start = $card->addChild('startDate')->addChild('date');
-//            $start->addAttribute('month', $this->getCard()->getStartDate('m'));
-//            $start->addAttribute('year', $this->getCard()->getStartDate('Y'));
-//
-//            $card->addChild('issueNumber', $this->getCard()->getIssueNumber());
-//        }
-//
-//        $card->addChild('cvc', $this->getCard()->getCvv());
-
-        $shopper = $order->addChild('shopper');
-        $email = $this->getCard()->getEmail();
-        if (!empty($email)) {
-            $shopper->addChild('shopperEmailAddress', $email);
-        }
-
-        if ($this->getCard()) {
-            $address = $order->addChild('billingAddress')->addChild('address');
-            $address->addChild('firstName', $this->getCard()->getFirstName());
-            $address->addChild('lastName', $this->getCard()->getLastName());
-            $address->addChild('address1', $this->getCard()->getAddress1());
-            $address->addChild('address2', $this->getCard()->getAddress2());
-            $address->addChild('postalCode', $this->getCard()->getPostcode());
-            $address->addChild('city', $this->getCard()->getCity());
-            $address->addChild('state', $this->getCard()->getState());
-            $address->addChild('countryCode', $this->getCard()->getCountry());
-        }
-
 
         $paResponse = $this->getPaResponse();
 
+        if (empty($paResponse)) {
+            $order->addAttribute('orderCode', $this->getTransactionId());
+            $order->addAttribute('installationId', $this->getInstallation());
 
-        // TODO if paResponse is not empty, the whole order contents should be (info3DSecure, session) instead of everything else
-//        if (empty($paResponse)) {
-//            $session = $order->addChild('session'); // Empty tag is valid but setting an empty ID attr isn't
-//            $session->addAttribute('shopperIPAddress', $this->getClientIP());
-//            $session->addAttribute('id', $this->getSession());
-//        } else {
-//            $info3DSecure = $order->addChild('info3DSecure');
-//            $info3DSecure->addChild('paResponse', $paResponse);
-//        }
+            $description = $this->getDescription() ? $this->getDescription() : 'Donation';
+            $order->addChild('description', $description);
 
+            $amount = $order->addChild('amount');
+            $amount->addAttribute('value', $this->getAmountInteger());
+            $amount->addAttribute('currencyCode', $this->getCurrency());
+            $amount->addAttribute('exponent', $this->getCurrencyDecimalPlaces());
 
+            $order->addChild('paymentMethodMask')->addChild('include')->addAttribute(
+                'code',
+                $this->getWorldpayPaymentType($this->getPaymentType())
+            );
 
-        $browser = $shopper->addChild('browser');
-        $browser->addChild('acceptHeader', $this->getAcceptHeader());
-        $browser->addChild('userAgentHeader', $this->getUserAgentHeader());
+            $shopper = $order->addChild('shopper');
+            $email = $this->getCard()->getEmail();
+            if (!empty($email)) {
+                $shopper->addChild('shopperEmailAddress', $email);
+            }
+            $browser = $shopper->addChild('browser');
+            $browser->addChild('acceptHeader', $this->getAcceptHeader());
+            $browser->addChild('userAgentHeader', $this->getUserAgentHeader());
+
+            if ($this->getCard()) {
+                $address = $order->addChild('billingAddress')->addChild('address');
+                $address->addChild('firstName', $this->getCard()->getFirstName());
+                $address->addChild('lastName', $this->getCard()->getLastName());
+                $address->addChild('address1', $this->getCard()->getAddress1());
+                $address->addChild('address2', $this->getCard()->getAddress2());
+                $address->addChild('postalCode', $this->getCard()->getPostcode());
+                $address->addChild('city', $this->getCard()->getCity());
+                $address->addChild('state', $this->getCard()->getState());
+                $address->addChild('countryCode', $this->getCard()->getCountry());
+            }
+        } else { // paResponse is set => the whole order contents should be (info3DSecure, session)
+            $session = $order->addChild('session'); // Empty tag is valid but setting an empty ID attr isn't
+            $session->addAttribute('shopperIPAddress', $this->getClientIP());
+            $session->addAttribute('id', $this->getSession());
+
+            $info3DSecure = $order->addChild('info3DSecure');
+            $info3DSecure->addChild('paResponse', $paResponse);
+        }
 
         return $data;
     }
@@ -342,20 +332,6 @@ class PurchaseRequest extends AbstractRequest
             ->post($this->getEndpoint(), $headers, $xml)
             ->send();
 
-
-//        echo PHP_EOL . 'REQUEST' . PHP_EOL;
-//
-//        echo $xml;
-//
-//        echo PHP_EOL . 'RESPONSE' . PHP_EOL;
-//
-//        print_r($httpResponse->getHeaders());
-//        echo $httpResponse->getBody();
-//        echo PHP_EOL . 'END RESPONSE' . PHP_EOL;
-//        exit;
-
-
-
         $this->response = new RedirectResponse(
             $this,
             $httpResponse->getBody()
@@ -383,5 +359,39 @@ class PurchaseRequest extends AbstractRequest
         }
 
         return self::EP_HOST_LIVE . self::EP_PATH;
+    }
+
+    /**
+     * @param string $input Omnipay card brand or 'raw' Worldpay payment type
+     * @return string       Worldpay payment type's XML identifier
+     */
+    protected function getWorldpayPaymentType($input)
+    {
+        $codes = [
+            CreditCard::BRAND_AMEX        => 'AMEX-SSL',
+            CreditCard::BRAND_DANKORT     => 'DANKORT-SSL',
+            CreditCard::BRAND_DINERS_CLUB => 'DINERS-SSL',
+            CreditCard::BRAND_DISCOVER    => 'DISCOVER-SSL',
+            CreditCard::BRAND_JCB         => 'JCB-SSL',
+            CreditCard::BRAND_LASER       => 'LASER-SSL',
+            CreditCard::BRAND_MAESTRO     => 'MAESTRO-SSL',
+            CreditCard::BRAND_MASTERCARD  => 'ECMC-SSL',
+            CreditCard::BRAND_SWITCH      => 'MAESTRO-SSL',
+            CreditCard::BRAND_VISA        => 'VISA-SSL'
+        ];
+
+        // First preference: Omnipay CreditCard brand constant match.
+        if (isset($code[strtolower($input)])) {
+            return $codes[strtolower($input)];
+        }
+
+        // Second preference: Worldpay payment type.
+        // See https://support.worldpay.com/support/kb/bg/customisingadvanced/custa9102.html
+        if (in_array($input . '-SSL', $codes)) {
+            return $input . '-SSL';
+        }
+
+        // Anything else: don't mask payment methods.
+        return 'ANY';
     }
 }
