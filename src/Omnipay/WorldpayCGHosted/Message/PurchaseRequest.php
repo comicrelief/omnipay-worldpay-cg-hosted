@@ -378,9 +378,13 @@ class PurchaseRequest extends AbstractRequest
             CreditCard::BRAND_MASTERCARD    => 'ECMC-SSL',
             CreditCard::BRAND_SWITCH        => 'MAESTRO-SSL',
             CreditCard::BRAND_VISA          => 'VISA-SSL',
-            'DMC'                           => 'ECMC-SSL',  // Mastercard Debit
-            'VISD'                          => 'VISA-SSL',  // Visa Debit
-            'VIED'                          => 'VISA-SSL',  // Visa Electron
+            'DINS'                          => 'DINERS-SSL',    // Diners
+            'LASR'                          => 'LASER-SSL',     // Laser
+            'MAES'                          => 'MAESTRO-SSL',   // Maestro
+            'MSCD'                          => 'ECMC-SSL',      // Mastercard
+            'DMC'                           => 'ECMC-SSL',      // Mastercard Debit
+            'VISD'                          => 'VISA-SSL',      // Visa Debit
+            'VIED'                          => 'VISA-SSL',      // Visa Electron
         ];
 
         // First preference: Omnipay CreditCard brand constant match.
