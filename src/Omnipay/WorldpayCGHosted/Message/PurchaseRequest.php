@@ -368,16 +368,19 @@ class PurchaseRequest extends AbstractRequest
     protected function getWorldpayPaymentType($input)
     {
         $codes = [
-            CreditCard::BRAND_AMEX        => 'AMEX-SSL',
-            CreditCard::BRAND_DANKORT     => 'DANKORT-SSL',
-            CreditCard::BRAND_DINERS_CLUB => 'DINERS-SSL',
-            CreditCard::BRAND_DISCOVER    => 'DISCOVER-SSL',
-            CreditCard::BRAND_JCB         => 'JCB-SSL',
-            CreditCard::BRAND_LASER       => 'LASER-SSL',
-            CreditCard::BRAND_MAESTRO     => 'MAESTRO-SSL',
-            CreditCard::BRAND_MASTERCARD  => 'ECMC-SSL',
-            CreditCard::BRAND_SWITCH      => 'MAESTRO-SSL',
-            CreditCard::BRAND_VISA        => 'VISA-SSL'
+            CreditCard::BRAND_AMEX          => 'AMEX-SSL',
+            CreditCard::BRAND_DANKORT       => 'DANKORT-SSL',
+            CreditCard::BRAND_DINERS_CLUB   => 'DINERS-SSL',
+            CreditCard::BRAND_DISCOVER      => 'DISCOVER-SSL',
+            CreditCard::BRAND_JCB           => 'JCB-SSL',
+            CreditCard::BRAND_LASER         => 'LASER-SSL',
+            CreditCard::BRAND_MAESTRO       => 'MAESTRO-SSL',
+            CreditCard::BRAND_MASTERCARD    => 'ECMC-SSL',
+            CreditCard::BRAND_SWITCH        => 'MAESTRO-SSL',
+            CreditCard::BRAND_VISA          => 'VISA-SSL',
+            'DMC'                           => 'ECMC-SSL',  // Mastercard Debit
+            'VISD'                          => 'VISA-SSL',  // Visa Debit
+            'VIED'                          => 'VISA-SSL',  // Visa Electron
         ];
 
         // First preference: Omnipay CreditCard brand constant match.
@@ -387,7 +390,10 @@ class PurchaseRequest extends AbstractRequest
 
         // Second preference: Worldpay payment type.
         // See https://support.worldpay.com/support/kb/bg/customisingadvanced/custa9102.html
-        if (in_array($input . '-SSL', $codes)) {
+        if (isset($codes[$input])) {
+            return $codes[$input];
+        }
+        if (in_array($input . '-SSL', $codes, true)) {
             return $input . '-SSL';
         }
 
