@@ -24,7 +24,6 @@ class RedirectResponse extends Response implements RedirectResponseInterface
     /**
      * Get redirect method
      *
-     * @access public
      * @return string
      */
     public function getRedirectMethod()
@@ -35,7 +34,6 @@ class RedirectResponse extends Response implements RedirectResponseInterface
     /**
      * Get redirect url
      *
-     * @access public
      * @return string
      */
     public function getRedirectUrl()

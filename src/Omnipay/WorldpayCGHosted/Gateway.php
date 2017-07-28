@@ -3,6 +3,7 @@
 namespace Omnipay\WorldpayCGHosted;
 
 use Omnipay\Common\AbstractGateway;
+use Omnipay\Common\Message\AbstractRequest;
 
 /**
  * WorldPay XML Class
@@ -14,7 +15,6 @@ class Gateway extends AbstractGateway
     /**
      * Get name
      *
-     * @access public
      * @return string
      */
     public function getName()
@@ -25,7 +25,6 @@ class Gateway extends AbstractGateway
     /**
      * Get default parameters
      *
-     * @access public
      * @return array
      */
     public function getDefaultParameters()
@@ -41,7 +40,6 @@ class Gateway extends AbstractGateway
     /**
      * Get accept header
      *
-     * @access public
      * @return string
      */
     public function getAcceptHeader()
@@ -54,8 +52,7 @@ class Gateway extends AbstractGateway
      *
      * @param string $value Accept header value
      *
-     * @access public
-     * @return void
+     * @return Gateway
      */
     public function setAcceptHeader($value)
     {
@@ -65,7 +62,6 @@ class Gateway extends AbstractGateway
     /**
      * Get installation
      *
-     * @access public
      * @return string
      */
     public function getInstallation()
@@ -78,8 +74,7 @@ class Gateway extends AbstractGateway
      *
      * @param string $value Installation value
      *
-     * @access public
-     * @return void
+     * @return Gateway
      */
     public function setInstallation($value)
     {
@@ -89,7 +84,6 @@ class Gateway extends AbstractGateway
     /**
      * Get merchant
      *
-     * @access public
      * @return string
      */
     public function getMerchant()
@@ -102,8 +96,7 @@ class Gateway extends AbstractGateway
      *
      * @param string $value Merchant value
      *
-     * @access public
-     * @return void
+     * @return Gateway
      */
     public function setMerchant($value)
     {
@@ -113,7 +106,6 @@ class Gateway extends AbstractGateway
     /**
      * Get pa response
      *
-     * @access public
      * @return string
      */
     public function getPaResponse()
@@ -126,8 +118,7 @@ class Gateway extends AbstractGateway
      *
      * @param string $value Pa response value
      *
-     * @access public
-     * @return void
+     * @return Gateway
      */
     public function setPaResponse($value)
     {
@@ -137,7 +128,6 @@ class Gateway extends AbstractGateway
     /**
      * Get password
      *
-     * @access public
      * @return string
      */
     public function getPassword()
@@ -150,8 +140,7 @@ class Gateway extends AbstractGateway
      *
      * @param string $value Password value
      *
-     * @access public
-     * @return void
+     * @return Gateway
      */
     public function setPassword($value)
     {
@@ -161,7 +150,6 @@ class Gateway extends AbstractGateway
     /**
      * Get session
      *
-     * @access public
      * @return string
      */
     public function getSession()
@@ -174,8 +162,7 @@ class Gateway extends AbstractGateway
      *
      * @param string $value Session value
      *
-     * @access public
-     * @return void
+     * @return Gateway
      */
     public function setSession($value)
     {
@@ -185,7 +172,6 @@ class Gateway extends AbstractGateway
     /**
      * Get user agent header
      *
-     * @access public
      * @return string
      */
     public function getUserAgentHeader()
@@ -198,8 +184,7 @@ class Gateway extends AbstractGateway
      *
      * @param string $value User agent header value
      *
-     * @access public
-     * @return void
+     * @return Gateway
      */
     public function setUserAgentHeader($value)
     {
@@ -209,7 +194,6 @@ class Gateway extends AbstractGateway
     /**
      * Get user ip
      *
-     * @access public
      * @return string
      */
     public function getUserIP()
@@ -222,8 +206,7 @@ class Gateway extends AbstractGateway
      *
      * @param string $value User ip value
      *
-     * @access public
-     * @return void
+     * @return Gateway
      */
     public function setUserIP($value)
     {
@@ -235,13 +218,12 @@ class Gateway extends AbstractGateway
      *
      * @param array $parameters Parameters
      *
-     * @access public
      * @return \Omnipay\WorldpayCGHosted\Message\PurchaseRequest
      */
     public function purchase(array $parameters = [])
     {
         return $this->createRequest(
-            '\Omnipay\WorldpayCGHosted\Message\PurchaseRequest',
+            \Omnipay\WorldpayCGHosted\Message\PurchaseRequest::class,
             $parameters
         );
     }

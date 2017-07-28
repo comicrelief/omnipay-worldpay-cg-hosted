@@ -20,7 +20,6 @@ class PurchaseRequest extends AbstractRequest
     /**
      * Get accept header
      *
-     * @access public
      * @return string
      */
     public function getAcceptHeader()
@@ -33,7 +32,6 @@ class PurchaseRequest extends AbstractRequest
      *
      * @param string $value Accept header
      *
-     * @access public
      * @return AbstractRequest
      */
     public function setAcceptHeader($value)
@@ -44,7 +42,6 @@ class PurchaseRequest extends AbstractRequest
     /**
      * Get installation
      *
-     * @access public
      * @return string
      */
     public function getInstallation()
@@ -56,8 +53,6 @@ class PurchaseRequest extends AbstractRequest
      * Set installation
      *
      * @param string $value Installation
-     *
-     * @access public
      * @return AbstractRequest
      */
     public function setInstallation($value)
@@ -68,7 +63,6 @@ class PurchaseRequest extends AbstractRequest
     /**
      * Get merchant
      *
-     * @access public
      * @return string
      */
     public function getMerchant()
@@ -80,8 +74,6 @@ class PurchaseRequest extends AbstractRequest
      * Set merchant
      *
      * @param string $value Merchant
-     *
-     * @access public
      * @return AbstractRequest
      */
     public function setMerchant($value)
@@ -92,7 +84,6 @@ class PurchaseRequest extends AbstractRequest
     /**
      * Get pa response
      *
-     * @access public
      * @return string
      */
     public function getPaResponse()
@@ -104,8 +95,6 @@ class PurchaseRequest extends AbstractRequest
      * Set pa response
      *
      * @param string $value Pa response
-     *
-     * @access public
      * @return AbstractRequest
      */
     public function setPaResponse($value)
@@ -116,7 +105,6 @@ class PurchaseRequest extends AbstractRequest
     /**
      * Get password
      *
-     * @access public
      * @return string
      */
     public function getPassword()
@@ -128,8 +116,6 @@ class PurchaseRequest extends AbstractRequest
      * Set password
      *
      * @param string $value Password
-     *
-     * @access public
      * @return AbstractRequest
      */
     public function setPassword($value)
@@ -140,7 +126,6 @@ class PurchaseRequest extends AbstractRequest
     /**
      * Get session
      *
-     * @access public
      * @return string
      */
     public function getSession()
@@ -152,8 +137,6 @@ class PurchaseRequest extends AbstractRequest
      * Set session
      *
      * @param string $value Session
-     *
-     * @access public
      * @return AbstractRequest
      */
     public function setSession($value)
@@ -164,7 +147,6 @@ class PurchaseRequest extends AbstractRequest
     /**
      * Get user agent header
      *
-     * @access public
      * @return string
      */
     public function getUserAgentHeader()
@@ -176,8 +158,6 @@ class PurchaseRequest extends AbstractRequest
      * Set user agent header
      *
      * @param string $value User agent header
-     *
-     * @access public
      * @return AbstractRequest
      */
     public function setUserAgentHeader($value)
@@ -205,7 +185,6 @@ class PurchaseRequest extends AbstractRequest
     /**
      * Get data
      *
-     * @access public
      * @return \SimpleXMLElement
      */
     public function getData()
@@ -273,8 +252,6 @@ class PurchaseRequest extends AbstractRequest
      * Send data
      *
      * @param \SimpleXMLElement $data Data
-     *
-     * @access public
      * @return RedirectResponse
      */
     public function sendData($data)
@@ -325,7 +302,6 @@ class PurchaseRequest extends AbstractRequest
      *
      * Returns endpoint depending on test mode
      *
-     * @access protected
      * @return string
      */
     protected function getEndpoint()

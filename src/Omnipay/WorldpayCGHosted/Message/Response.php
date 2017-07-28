@@ -13,12 +13,9 @@ use Omnipay\Common\Message\RequestInterface;
 class Response extends AbstractResponse
 {
     /**
-     * Constructor
-     *
      * @param RequestInterface $request Request
      * @param string           $data    Data
-     *
-     * @access public
+     * @throws InvalidResponseException if data is empty
      */
     public function __construct(RequestInterface $request, $data)
     {
@@ -39,7 +36,6 @@ class Response extends AbstractResponse
     /**
      * Get message
      *
-     * @access public
      * @return string
      */
     public function getMessage()
@@ -118,7 +114,6 @@ class Response extends AbstractResponse
     /**
      * Get transaction reference
      *
-     * @access public
      * @return string
      */
     public function getTransactionReference()
@@ -133,7 +128,6 @@ class Response extends AbstractResponse
     /**
      * Get is redirect
      *
-     * @access public
      * @return boolean
      */
     public function isRedirect()
@@ -144,7 +138,6 @@ class Response extends AbstractResponse
     /**
      * Get is successful
      *
-     * @access public
      * @return boolean
      */
     public function isSuccessful()
