@@ -281,7 +281,6 @@ class PurchaseRequest extends AbstractRequest
         }
 
 
-
         $paResponse = $this->getPaResponse();
 
 
@@ -356,10 +355,17 @@ class PurchaseRequest extends AbstractRequest
 //        exit;
 
 
-        return $this->response = new RedirectResponse(
+
+        $this->response = new RedirectResponse(
             $this,
             $httpResponse->getBody()
         );
+
+        $this->response->setSuccessUrl($this->getParameter('returnUrl'));
+        $this->response->setFailureUrl($this->getParameter('failureUrl'));
+        $this->response->setCancelUrl($this->getParameter('cancelUrl'));
+
+        return $this->response;
     }
 
     /**
