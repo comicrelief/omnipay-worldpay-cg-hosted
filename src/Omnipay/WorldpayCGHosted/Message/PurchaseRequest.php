@@ -296,11 +296,32 @@ class PurchaseRequest extends AbstractRequest
             $httpResponse->getBody()
         );
 
-        $this->response->setSuccessUrl($this->getParameter('returnUrl'));
-        $this->response->setFailureUrl($this->getParameter('failureUrl'));
-        $this->response->setCancelUrl($this->getParameter('cancelUrl'));
+        $this->response->setSuccessUrl($this->getReturnUrl());
+        $this->response->setFailureUrl($this->getFailureUrl());
+        $this->response->setCancelUrl($this->getCancelUrl());
 
         return $this->response;
+    }
+
+    /**
+     * Get the request failure return URL.
+     *
+     * @return string
+     */
+    public function getFailureUrl()
+    {
+        return $this->getParameter('failureUrl');
+    }
+
+    /**
+     * Sets the request failure return URL.
+     *
+     * @param string $value
+     * @return AbstractRequest Provides a fluent interface
+     */
+    public function setFailureUrl($value)
+    {
+        return $this->setParameter('failureUrl', $value);
     }
 
     /**
