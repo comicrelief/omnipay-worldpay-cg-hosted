@@ -7,11 +7,11 @@ use Omnipay\Tests\TestCase;
 class ResponseTest extends TestCase
 {
     /**
-     * @expectedException Omnipay\Common\Exception\InvalidResponseException
+     * @expectedException \Omnipay\Common\Exception\InvalidResponseException
      */
     public function testConstructEmpty()
     {
-        $response = new Response($this->getMockRequest(), '');
+        new Response($this->getMockRequest(), '');
     }
 
     public function testPurchaseSuccess()

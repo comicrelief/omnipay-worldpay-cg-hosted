@@ -3,6 +3,7 @@
 namespace Omnipay\WorldpayCGHosted\Message;
 
 use Omnipay\Common\CreditCard;
+use Omnipay\Common\Exception\InvalidCreditCardException;
 use Omnipay\Common\Message\AbstractRequest;
 
 /**
@@ -185,6 +186,7 @@ class PurchaseRequest extends AbstractRequest
      * Get data
      *
      * @return \SimpleXMLElement
+     * @throws InvalidCreditCardException if virtual card data missing
      */
     public function getData()
     {
@@ -216,6 +218,11 @@ class PurchaseRequest extends AbstractRequest
             );
 
             $shopper = $order->addChild('shopper');
+
+            if (!$this->getCard()) {
+                throw new InvalidCreditCardException('No (virtual) credit card data set');
+            }
+
             $email = $this->getCard()->getEmail();
             if (!empty($email)) {
                 $shopper->addChild('shopperEmailAddress', $email);
