@@ -392,6 +392,6 @@ class PurchaseRequest extends AbstractRequest
         }
 
         // Anything else: don't mask payment methods.
-        return 'ANY';
+        return 'ALL';
     }
 }
