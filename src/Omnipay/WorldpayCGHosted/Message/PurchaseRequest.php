@@ -162,30 +162,6 @@ class PurchaseRequest extends AbstractRequest
     }
 
     /**
-     * Get term url
-     *
-     * @access public
-     * @return string
-     */
-    public function getTermUrl()
-    {
-        return $this->getParameter('termUrl');
-    }
-
-    /**
-     * Set term url
-     *
-     * @param string $value Term url
-     *
-     * @access public
-     * @return AbstractRequest
-     */
-    public function setTermUrl($value)
-    {
-        return $this->setParameter('termUrl', $value);
-    }
-
-    /**
      * Get user agent header
      *
      * @access public

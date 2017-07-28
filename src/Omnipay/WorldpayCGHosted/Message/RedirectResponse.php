@@ -16,18 +16,9 @@ class RedirectResponse extends Response implements RedirectResponseInterface
     /** @var string|null */
     private $cancelUrl;
 
-    /**
-     * Get redirect data
-     *
-     * @access public
-     * @return array
-     */
     public function getRedirectData()
     {
-        return [
-            'PaReq'   => $this->data->requestInfo->request3DSecure->paRequest,
-            'TermUrl' => $this->request->getTermUrl() // todo does this work / ever get used?
-        ];
+        return [];
     }
 
     /**
