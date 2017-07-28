@@ -16,16 +16,16 @@ class ResponseTest extends TestCase
 
     public function testPurchaseSuccess()
     {
-        $httpResponse = $this->getMockHttpResponse('PurchaseSuccess.txt');
+        $httpResponse = $this->getMockHttpResponse('InitSuccessRedirect.txt');
         $response = new Response(
             $this->getMockRequest(),
             $httpResponse->getBody()
         );
 
-        $this->assertTrue($response->isSuccessful());
-        $this->assertFalse($response->isRedirect());
-        $this->assertEquals('T0211010', $response->getTransactionReference());
-        $this->assertEquals('AUTHORISED', $response->getMessage());
+        $this->assertTrue($response->isRedirect());
+        $this->assertFalse($response->isSuccessful());
+        $this->assertEquals('11001100-0000-0000-0000-000011110101', $response->getTransactionReference());
+        $this->assertEquals('PENDING', $response->getMessage());
     }
 
     public function testPurchaseFailure()

@@ -55,15 +55,16 @@ class GatewayTest extends GatewayTestCase
 
     public function testPurchaseSuccess()
     {
-        $this->setMockHttpResponse('PurchaseSuccess.txt');
+        $this->setMockHttpResponse('InitSuccessRedirect.txt');
 
         $purchase = $this->gateway->purchase($this->parameters);
         $purchase->setCard($this->card);
         $purchase->setTestMode(true);
         $response = $purchase->send();
 
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('T0211010', $response->getTransactionReference());
+        $this->assertTrue($response->isRedirect());
+        $this->assertFalse($response->isSuccessful());
+        $this->assertEquals('11001100-0000-0000-0000-000011110101', $response->getTransactionReference());
     }
 
     public function testPurchaseError()
