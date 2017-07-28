@@ -12,6 +12,7 @@ use Omnipay\Common\Message\RequestInterface;
  */
 class Response extends AbstractResponse
 {
+    /** @noinspection PhpMissingParentConstructorInspection */
     /**
      * @param RequestInterface $request Request
      * @param string           $data    Data
@@ -114,7 +115,7 @@ class Response extends AbstractResponse
     /**
      * Get transaction reference
      *
-     * @return string
+     * @return string|null
      */
     public function getTransactionReference()
     {
@@ -123,6 +124,8 @@ class Response extends AbstractResponse
         if (isset($attributes['orderCode'])) {
             return $attributes['orderCode'];
         }
+
+        return null;
     }
 
     /**

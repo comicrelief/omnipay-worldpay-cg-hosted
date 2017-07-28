@@ -10,12 +10,11 @@ use Omnipay\Common\Message\AbstractRequest;
  */
 class PurchaseRequest extends AbstractRequest
 {
-    const EP_HOST_LIVE = 'https://secure.worldpay.commmmm.i.will.fail'; // todo
-    const EP_HOST_TEST = 'https://secure-test.worldpay.com';
+    const API_HOST_LIVE = 'https://secure.worldpay.com';
+    const API_HOST_TEST = 'https://secure-test.worldpay.com';
 
-    const EP_PATH = '/jsp/merchant/xml/paymentService.jsp';
-
-    const VERSION = '1.4';
+    const API_PATH = '/jsp/merchant/xml/paymentService.jsp';
+    const API_VERSION = '1.4';
 
     /**
      * Get accept header
@@ -192,7 +191,7 @@ class PurchaseRequest extends AbstractRequest
         $this->validate('amount');
 
         $data = new \SimpleXMLElement('<paymentService />');
-        $data->addAttribute('version', self::VERSION);
+        $data->addAttribute('version', self::API_VERSION);
         $data->addAttribute('merchantCode', $this->getMerchant());
 
         $order = $data->addChild('submit')->addChild('order');
@@ -307,10 +306,10 @@ class PurchaseRequest extends AbstractRequest
     protected function getEndpoint()
     {
         if ($this->getTestMode()) {
-            return self::EP_HOST_TEST . self::EP_PATH;
+            return self::API_HOST_TEST . self::API_PATH;
         }
 
-        return self::EP_HOST_LIVE . self::EP_PATH;
+        return self::API_HOST_LIVE . self::API_PATH;
     }
 
     /**

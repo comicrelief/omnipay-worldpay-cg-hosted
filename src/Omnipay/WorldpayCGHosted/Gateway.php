@@ -3,12 +3,9 @@
 namespace Omnipay\WorldpayCGHosted;
 
 use Omnipay\Common\AbstractGateway;
-use Omnipay\Common\Message\AbstractRequest;
 
 /**
- * WorldPay XML Class
- *
- * @link http://www.worldpay.com/support/bg/xml/kb/dxml_inv.pdf
+ * WorldPay Hosted Corporate Gateway (XML)
  */
 class Gateway extends AbstractGateway
 {
@@ -223,7 +220,7 @@ class Gateway extends AbstractGateway
     public function purchase(array $parameters = [])
     {
         return $this->createRequest(
-            \Omnipay\WorldpayCGHosted\Message\PurchaseRequest::class,
+            Message\PurchaseRequest::class,
             $parameters
         );
     }
