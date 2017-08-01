@@ -8,4 +8,4 @@ Content-length: 575
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE paymentService PUBLIC "-//WorldPay//DTD WorldPay PaymentService v1//EN"
                                 "http://dtd.worldpay.com/paymentService_v1.dtd">
-<paymentService version="1.4" merchantCode="OTNGBP"><reply><orderStatus orderCode="11001100-0000-0000-0000-000011110101"><reference id="7457457457">https://payments-test.worldpay.com/app/hpp/integration/wpg/corporate?OrderKey=OTNGBP%5E11001100-0000-0000-0000-000011110101&amp;Ticket=999988889999888899AaaaA9AAAA8aA9AAaaaaA</reference></orderStatus></reply></paymentService>
+<paymentService version="1.4" merchantCode="MYMERCHANT"><reply><orderStatus orderCode="11001100-0000-0000-0000-000011110101"><reference id="7457457457">https://payments-test.worldpay.com/app/hpp/integration/wpg/corporate?OrderKey=MYMERCHANT%5E11001100-0000-0000-0000-000011110101&amp;Ticket=999988889999888899AaaaA9AAAA8aA9AAaaaaA</reference></orderStatus></reply></paymentService>
