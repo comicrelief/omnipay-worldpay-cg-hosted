@@ -40,7 +40,7 @@ class RedirectResponse extends Response implements RedirectResponseInterface
     {
         $url = $this->data->reference->__toString();
 
-        // http://support.worldpay.com/support/kb/gg/corporate-gateway-guide/content/hostedintegration/paymentpageintegration.htm#Custom
+        // Custom result URLs available: http://bit.ly/2uRpuX0
         if (!empty($this->successUrl)) {
             $url .= '&successURL=' . rawurlencode($this->successUrl);
             $url .= '&pendingURL=' . rawurlencode($this->successUrl);

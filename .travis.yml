@@ -7,6 +7,9 @@ php:
 install:
   - composer install
 
+script:
+  - composer test
+
 git:
   depth: 3
 
