@@ -12,6 +12,8 @@ use Omnipay\Common\Message\RequestInterface;
  */
 class Response extends AbstractResponse
 {
+    const PAYMENT_STATUS_AUTHORISED = 'AUTHORISED';
+
     /** @noinspection PhpMissingParentConstructorInspection */
     /**
      * @param RequestInterface $request Request
@@ -131,7 +133,7 @@ class Response extends AbstractResponse
     /**
      * Get is redirect
      *
-     * @return boolean
+     * @return bool
      */
     public function isRedirect()
     {
@@ -141,16 +143,14 @@ class Response extends AbstractResponse
     /**
      * Get is successful
      *
-     * @return boolean
+     * @return bool
      */
     public function isSuccessful()
     {
-        if (isset($this->data->payment->lastEvent)) {
-            if (strtoupper($this->data->payment->lastEvent) == 'AUTHORISED') {
-                return true;
-            }
+        if (!isset($this->data->payment->lastEvent)) {
+            return false;
         }
 
-        return false;
+        return (strtoupper($this->data->payment->lastEvent) === self::PAYMENT_STATUS_AUTHORISED);
     }
 }
