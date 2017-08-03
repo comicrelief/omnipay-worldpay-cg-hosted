@@ -13,6 +13,7 @@ use Omnipay\Common\Message\RequestInterface;
 class Response extends AbstractResponse
 {
     const PAYMENT_STATUS_AUTHORISED = 'AUTHORISED';
+    const PAYMENT_STATUS_CAPTURED   = 'CAPTURED';
 
     /** @noinspection PhpMissingParentConstructorInspection */
     /**
@@ -151,6 +152,13 @@ class Response extends AbstractResponse
             return false;
         }
 
-        return (strtoupper($this->data->payment->lastEvent) === self::PAYMENT_STATUS_AUTHORISED);
+        return in_array(
+            strtoupper($this->data->payment->lastEvent),
+            [
+                self::PAYMENT_STATUS_AUTHORISED,
+                self::PAYMENT_STATUS_CAPTURED,
+            ],
+            true
+        );
     }
 }
