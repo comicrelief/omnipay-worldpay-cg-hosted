@@ -3,6 +3,7 @@
 namespace Omnipay\WorldpayCGHosted\Message;
 
 use Guzzle\Http\Client;
+use Omnipay\Common\Message\RequestInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -18,7 +19,13 @@ class Notification extends Response
     /** @var string */
     private $originIp;
 
-    public function __construct($request = null, $data = '', $notificationOriginIp)
+    /**
+     * Notification constructor.
+     * @param RequestInterface|null $request
+     * @param string                $data
+     * @param string                $notificationOriginIp
+     */
+    public function __construct($request, $data, $notificationOriginIp)
     {
         $this->originIp = $notificationOriginIp;
 
