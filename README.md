@@ -38,6 +38,22 @@ The following gateways are provided by this package:
 For general usage instructions, please see the main
 [Omnipay](https://github.com/omnipay/omnipay) repository.
 
+## Worldpay notifications verification
+
+Worldpay recommend the following to receive notifications and check they came from them:
+
+1. Use server SSL - this should be standard for any payment app!
+2. Check the IP's reverse DNS records - this actually isn't very secure and can be spoofed, but is implemented in this library as a first line of defence.
+3. Request for them to send, and validate on your server, their client TLS certificate.
+
+Unfortunately there's no easy server- and environment-agnostic way to implement client TLS verification (point 3) within this library, and for our apps' current infrastructure it wasn't feasible. Some of the work would generally live in your web server anyway rather than this library.
+
+We also considered an additional measure, [inquiry requests](http://support.worldpay.com/support/kb/gg/corporate-gateway-guide/content/manage/inquiryrequests.htm), but as this document explains they're not enabled by default and are also nowhere near real-time (~5 minutes latency). This means they are not suitable for checking notifications' validity unless you queue them and accept much longer delays.
+
+This means that for now you should _not_ consider notifications shown as 'valid' in this library to be guaranteed valid, i.e. **do not ship goods based on this without a later check**, using inquiry requests or the Worldpay UI, that gives a matching result.
+
+Any ideas or contributions that you think might improve this situation would be very welcome!
+
 ## Support
 
 If you are having general issues with Omnipay, we suggest posting on
