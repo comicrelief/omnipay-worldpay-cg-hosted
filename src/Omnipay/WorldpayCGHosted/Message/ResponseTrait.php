@@ -12,8 +12,6 @@ trait ResponseTrait
     protected static $PAYMENT_STATUS_AUTHORISED = 'AUTHORISED';
     /** @var string */
     protected static $PAYMENT_STATUS_CAPTURED   = 'CAPTURED';
-    /** @var \SimpleXMLElement */
-    protected $data;
 
     /**
      * Get is successful
