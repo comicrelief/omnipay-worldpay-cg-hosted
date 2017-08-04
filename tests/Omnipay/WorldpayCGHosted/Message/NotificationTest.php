@@ -22,6 +22,7 @@ class NotificationTest extends TestCase
         $this->assertTrue($notification->isValid());
         $this->assertTrue($notification->isAuthorised());
         $this->assertEquals('AUTHORISED', $notification->getStatus());
+        $this->assertEquals('11001100-0000-0000-0000-000011110101', $notification->getTransactionReference());
 
         $this->assertEquals('[OK]', $notification->getResponseBody());
         $this->assertEquals(200, $notification->getResponseStatusCode());
@@ -40,6 +41,7 @@ class NotificationTest extends TestCase
         $this->assertFalse($notification->isValid());
         $this->assertFalse($notification->isAuthorised());
         $this->assertEquals('AUTHORISED', $notification->getStatus());
+        $this->assertEquals('11001100-0000-0000-0000-000011110101', $notification->getTransactionReference());
 
         $this->assertEquals('[ERROR]', $notification->getResponseBody());
         $this->assertEquals(500, $notification->getResponseStatusCode());
@@ -58,6 +60,7 @@ class NotificationTest extends TestCase
         $this->assertTrue($notification->isValid());
         $this->assertTrue($notification->isAuthorised());
         $this->assertEquals('CAPTURED', $notification->getStatus());
+        $this->assertEquals('ExampleOrder1', $notification->getTransactionReference());
 
         $this->assertEquals('[OK]', $notification->getResponseBody());
         $this->assertEquals(200, $notification->getResponseStatusCode());
@@ -76,6 +79,7 @@ class NotificationTest extends TestCase
         $this->assertTrue($notification->isValid());
         $this->assertFalse($notification->isAuthorised());
         $this->assertEquals('REFUSED', $notification->getStatus());
+        $this->assertEquals('ExampleOrder1', $notification->getTransactionReference());
 
         $this->assertEquals('[OK]', $notification->getResponseBody());
         $this->assertEquals(200, $notification->getResponseStatusCode());
@@ -94,6 +98,7 @@ class NotificationTest extends TestCase
         $this->assertTrue($notification->isValid());
         $this->assertFalse($notification->isAuthorised());
         $this->assertEquals('CANCELLED', $notification->getStatus());
+        $this->assertEquals('ExampleOrder1', $notification->getTransactionReference());
 
         $this->assertEquals('[OK]', $notification->getResponseBody());
         $this->assertEquals(200, $notification->getResponseStatusCode());
@@ -112,6 +117,7 @@ class NotificationTest extends TestCase
         $this->assertTrue($notification->isValid());
         $this->assertFalse($notification->isAuthorised());
         $this->assertEquals('SENT_FOR_REFUND', $notification->getStatus());
+        $this->assertEquals('ExampleOrder1', $notification->getTransactionReference());
 
         $this->assertEquals('[OK]', $notification->getResponseBody());
         $this->assertEquals(200, $notification->getResponseStatusCode());
@@ -142,6 +148,7 @@ class NotificationTest extends TestCase
         $this->assertFalse($notification->isValid());
         $this->assertFalse($notification->isAuthorised());
         $this->assertNull($notification->getStatus());
+        $this->assertEquals('ExampleOrder1', $notification->getTransactionReference());
 
         $this->assertEquals('[ERROR]', $notification->getResponseBody());
         $this->assertEquals(500, $notification->getResponseStatusCode());

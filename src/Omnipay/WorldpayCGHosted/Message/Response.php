@@ -115,22 +115,6 @@ class Response extends AbstractResponse
     }
 
     /**
-     * Get transaction reference
-     *
-     * @return string|null
-     */
-    public function getTransactionReference()
-    {
-        $attributes = $this->data->attributes();
-
-        if (isset($attributes['orderCode'])) {
-            return $attributes['orderCode'];
-        }
-
-        return null;
-    }
-
-    /**
      * Get is redirect
      *
      * @return bool
