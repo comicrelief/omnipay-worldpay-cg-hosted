@@ -12,8 +12,7 @@ use Omnipay\Common\Message\RequestInterface;
  */
 class Response extends AbstractResponse
 {
-    const PAYMENT_STATUS_AUTHORISED = 'AUTHORISED';
-    const PAYMENT_STATUS_CAPTURED   = 'CAPTURED';
+    use ResponseTrait;
 
     /** @noinspection PhpMissingParentConstructorInspection */
     /**
@@ -139,26 +138,5 @@ class Response extends AbstractResponse
     public function isRedirect()
     {
         return (isset($this->data->reference));
-    }
-
-    /**
-     * Get is successful
-     *
-     * @return bool
-     */
-    public function isSuccessful()
-    {
-        if (!isset($this->data->payment->lastEvent)) {
-            return false;
-        }
-
-        return in_array(
-            strtoupper($this->data->payment->lastEvent),
-            [
-                self::PAYMENT_STATUS_AUTHORISED,
-                self::PAYMENT_STATUS_CAPTURED,
-            ],
-            true
-        );
     }
 }

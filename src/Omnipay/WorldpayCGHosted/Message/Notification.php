@@ -2,16 +2,18 @@
 
 namespace Omnipay\WorldpayCGHosted\Message;
 
-use Guzzle\Http\Client;
-use Omnipay\Common\Message\RequestInterface;
-use Symfony\Component\HttpFoundation\Request;
+use DOMDocument;
+use Omnipay\Common\Exception\InvalidResponseException;
+use Omnipay\Common\Message\AbstractResponse;
 
 /**
  * WorldPay XML Notification - not technically a response but shares
  * most of the same general XML payload structure.
  */
-class Notification extends Response
+class Notification extends AbstractResponse
 {
+    use ResponseTrait;
+
     const RESPONSE_BODY_SUCCESS = '[OK]';       // Must exactly match Worldpay's stated body.
     const RESPONSE_CODE_SUCCESS = 200;          // Must be 200 for Worldpay.
     const RESPONSE_BODY_ERROR   = '[ERROR]';    // Arbitrary not-OK string.
@@ -19,21 +21,26 @@ class Notification extends Response
     /** @var string */
     private $originIp;
 
-    /**
-     * Notification constructor.
-     * @param RequestInterface|null $request
+    /** @noinspection PhpMissingParentConstructorInspection
      * @param string                $data
      * @param string                $notificationOriginIp
+     * @throws InvalidResponseException on missing data
      */
-    public function __construct($request, $data, $notificationOriginIp)
+    public function __construct($data, $notificationOriginIp)
     {
         $this->originIp = $notificationOriginIp;
 
-        if ($request === null) {
-            $request = new PurchaseRequest(new Client(), new Request());
+        if (empty($data)) {
+            throw new InvalidResponseException();
         }
 
-        parent::__construct($request, $data);
+        $responseDom = new DOMDocument;
+        if (!@$responseDom->loadXML($data)) {
+            throw new InvalidResponseException('Non-XML notification body received');
+        }
+
+        $document = simplexml_import_dom($responseDom->documentElement);
+        $this->data = $document->notify->orderStatusEvent;
     }
 
     /**
@@ -43,11 +50,23 @@ class Notification extends Response
      * @link http://bit.ly/wp-notification-statuses Which statuses trigger notifications
      * @link http://bit.ly/wp-status-detail         More detail on statuses
      *
-     * @return string
+     * @return string|null
      */
     public function getStatus()
     {
+        if (!$this->hasStatus()) {
+            return null;
+        }
+
         return $this->data->payment->lastEvent->__toString();
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasStatus()
+    {
+        return !empty($this->data->payment->lastEvent);
     }
 
     /**
@@ -59,14 +78,14 @@ class Notification extends Response
     }
 
     /**
-     * While this only checks the source host currently, it might include support for client TLS
+     * While this only checks the source host and data structure currently, it might include support for client TLS
      * verification or other checks in the future.
      *
      * @return bool
      */
     public function isValid()
     {
-        return $this->originIsValid();
+        return ($this->originIsValid() && $this->hasStatus());
     }
 
     /**

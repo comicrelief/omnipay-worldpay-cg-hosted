@@ -1,3 +1,10 @@
+HTTP/1.1 200 OK
+Connection: close
+Server: VPS-3.033.00
+Date: Sat, 23 Feb 2013 19:45:00 GMT
+Content-type: text/xml
+Content-length: 868
+
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE paymentService PUBLIC "-//Worldpay//DTD Worldpay PaymentService v1//EN"
   "http://dtd.worldpay.com/paymentService_v1.dtd">

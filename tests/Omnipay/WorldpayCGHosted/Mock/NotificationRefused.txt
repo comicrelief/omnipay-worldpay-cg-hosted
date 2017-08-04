@@ -1,0 +1,43 @@
+HTTP/1.1 200 OK
+Connection: close
+Server: VPS-3.033.00
+Date: Sat, 23 Feb 2013 19:45:00 GMT
+Content-type: text/xml
+Content-length: 1598
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE paymentService PUBLIC "-//Worldpay//DTD Worldpay PaymentService v1//EN"
+  "http://dtd.worldpay.com/paymentService_v1.dtd">
+<paymentService version="1.4" merchantCode="Your_merchant_code"> 
+  <notify>
+    <orderStatusEvent orderCode="ExampleOrder1"> <!--The orderCode you supplied in the order-->
+      <payment>
+        <paymentMethod>VISA-SSL</paymentMethod>
+        <paymentMethodDetail> <!--Not returned by default - contact us to enable-->
+          <card number="444433******1111" type="creditcard">
+            <expiryDate> <!--Not returned by default - contact us to enable-->
+              <date month="01" year="2020"/>
+            </expiryDate>
+          </card>
+        </paymentMethodDetail>
+        <amount value="1000" currencyCode="EUR" exponent="2" debitCreditIndicator="credit"/>
+        <lastEvent>REFUSED</lastEvent>
+        <ISO8583ReturnCode code="5" description="REFUSED"/>
+        <CVCResultCode description="C"/> 
+        <AVSResultCode description="E"/>
+        <AAVAddressResultCode description="B"/>
+        <AAVPostcodeResultCode description="B"/>
+        <AAVCardholderNameResultCode description="B"/>
+        <AAVTelephoneResultCode description="B"/>
+        <AAVEmailResultCode description="B"/>
+        <ThreeDSecureResult description="Failed"/> 
+        <riskScore value="256"/>
+      </payment>
+      <journal journalType="REFUSED" sent="n">
+        <bookingDate>
+          <date dayOfMonth="01" month="01" year="2020"/>
+        </bookingDate>
+      </journal>
+    </orderStatusEvent>
+  </notify>
+</paymentService>

@@ -1,0 +1,8 @@
+HTTP/1.1 200 OK
+Connection: close
+Server: VPS-3.033.00
+Date: Sat, 23 Feb 2013 19:45:00 GMT
+Content-type: text/json
+Content-length: 32
+
+{"i_am": "not-an XML response!"}
