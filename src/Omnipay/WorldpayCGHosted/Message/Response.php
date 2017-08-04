@@ -12,6 +12,8 @@ use Omnipay\Common\Message\RequestInterface;
  */
 class Response extends AbstractResponse
 {
+    use ResponseTrait;
+
     /** @noinspection PhpMissingParentConstructorInspection */
     /**
      * @param RequestInterface $request Request
@@ -131,26 +133,10 @@ class Response extends AbstractResponse
     /**
      * Get is redirect
      *
-     * @return boolean
+     * @return bool
      */
     public function isRedirect()
     {
         return (isset($this->data->reference));
-    }
-
-    /**
-     * Get is successful
-     *
-     * @return boolean
-     */
-    public function isSuccessful()
-    {
-        if (isset($this->data->payment->lastEvent)) {
-            if (strtoupper($this->data->payment->lastEvent) == 'AUTHORISED') {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

@@ -2,20 +2,14 @@
 
 ## NOT PRODUCTION READY!
 
-**WORK IN PROGRESS July 2017**
+**WORK IN PROGRESS August 2017**
 
 This fork from teaandcode/omnipay-worldpay-xml is in active dev, and is not yet tested.
 
-The below notes are not updated yet.
-
---
-
-
-**WorldPay XML Hosted driver for the Omnipay PHP payment processing library**
+**WorldPay Hosted driver for the Omnipay PHP payment processing library**
 
 [Omnipay](https://github.com/omnipay/omnipay) is a framework agnostic,
-multi-gateway payment processing library for PHP 5.3+. This package implements
-WorldPay XML Direct support for Omnipay.
+multi-gateway payment processing library for PHP 5.6+. This package implements WorldPay XML Corporate Gateway Hosted support for Omnipay.
 
 ## Installation
 
@@ -25,7 +19,7 @@ add it to your `composer.json` file:
 ```json
 {
     "require": {
-        "teaandcode/omnipay-worldpay-xml": "~1.0"
+        "comicrelief/omnipay-worldpay-cg-hosted": "~1.0"
     }
 }
 ```
@@ -39,7 +33,7 @@ And run composer to update your dependencies:
 
 The following gateways are provided by this package:
 
-* WorldPay XML Direct
+* WorldPay Corporate Gateway Hosted
 
 For general usage instructions, please see the main
 [Omnipay](https://github.com/omnipay/omnipay) repository.
@@ -47,8 +41,8 @@ For general usage instructions, please see the main
 ## Support
 
 If you are having general issues with Omnipay, we suggest posting on
-[Stack Overflow](http://stackoverflow.com/). Be sure to add the
-[omnipay tag](http://stackoverflow.com/questions/tagged/omnipay) so it can be
+[Stack Overflow](https://stackoverflow.com/). Be sure to add the
+[omnipay tag](https://stackoverflow.com/questions/tagged/omnipay) so it can be
 easily found.
 
 If you want to keep up to date with release anouncements, discuss ideas for the
@@ -57,5 +51,5 @@ project, or ask more detailed questions, there is also a
 subscribe to.
 
 If you believe you have found a bug, please report it using the
-[issue tracker](https://github.com/teaandcode/omnipay-worldpay-xml/issues), or
+[issue tracker](https://github.com/comicrelief/omnipay-worldpay-cg-hosted/issues), or
 better yet, fork the library and submit a pull request.
