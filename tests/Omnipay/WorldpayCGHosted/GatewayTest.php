@@ -129,4 +129,25 @@ class GatewayTest extends GatewayTestCase
         $this->assertEquals($this->parameters['cancelUrl'], $purchase->getCancelUrl());
         $this->assertEquals($this->parameters['notifyUrl'], $purchase->getNotifyUrl());
     }
+
+    public function testAuxiliarySettersAndGetters()
+    {
+        $this->assertNull($this->gateway->getAcceptHeader());
+        $this->assertNull($this->gateway->getPaResponse());
+        $this->assertNull($this->gateway->getSession());
+        $this->assertNull($this->gateway->getUserAgentHeader());
+        $this->assertNull($this->gateway->getUserIP());
+
+        $this->gateway->setAcceptHeader('text/xml');
+        $this->gateway->setPaResponse('Some value');
+        $this->gateway->setSession('my-token-key');
+        $this->gateway->setUserAgentHeader('My great browser');
+        $this->gateway->setUserIP('10.0.0.99');
+
+        $this->assertEquals('text/xml', $this->gateway->getAcceptHeader());
+        $this->assertEquals('Some value', $this->gateway->getPaResponse());
+        $this->assertEquals('my-token-key', $this->gateway->getSession());
+        $this->assertEquals('My great browser', $this->gateway->getUserAgentHeader());
+        $this->assertEquals('10.0.0.99', $this->gateway->getUserIP());
+    }
 }

@@ -28,5 +28,7 @@ class RedirectResponseTest extends TestCase
             'cancelURL=https%3A%2F%2Fwww.example.com%2Fcancel';
 
         $this->assertEquals($expected, $response->getRedirectUrl());
+        $this->assertEquals('GET', $response->getRedirectMethod());
+        $this->assertEquals([], $response->getRedirectData());
     }
 }
