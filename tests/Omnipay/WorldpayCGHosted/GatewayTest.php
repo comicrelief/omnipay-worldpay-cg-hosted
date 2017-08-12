@@ -1,9 +1,10 @@
 <?php
 
-namespace Omnipay\WorldpayCGHosted;
+namespace Omnipay\WorldpayCGHosted\Tests;
 
 use Omnipay\Common\CreditCard;
 use Omnipay\Tests\GatewayTestCase;
+use Omnipay\WorldpayCGHosted\Gateway;
 
 class GatewayTest extends GatewayTestCase
 {

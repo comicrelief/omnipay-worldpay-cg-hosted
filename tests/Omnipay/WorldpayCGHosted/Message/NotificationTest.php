@@ -1,8 +1,9 @@
 <?php
 
-namespace Omnipay\WorldpayCGHosted\Message;
+namespace Omnipay\WorldpayCGHosted\Tests\Message;
 
 use Omnipay\Tests\TestCase;
+use Omnipay\WorldpayCGHosted\Message\Notification;
 
 class NotificationTest extends TestCase
 {

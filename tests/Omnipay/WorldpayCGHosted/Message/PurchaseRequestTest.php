@@ -1,9 +1,10 @@
 <?php
 
-namespace Omnipay\WorldpayCGHosted\Message;
+namespace Omnipay\WorldpayCGHosted\Tests\Message;
 
 use Omnipay\Common\CreditCard;
 use Omnipay\Tests\TestCase;
+use Omnipay\WorldpayCGHosted\Message\PurchaseRequest;
 
 class PurchaseRequestTest extends TestCase
 {
