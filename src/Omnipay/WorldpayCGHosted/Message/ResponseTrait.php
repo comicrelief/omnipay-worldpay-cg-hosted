@@ -20,6 +20,10 @@ trait ResponseTrait
      */
     public function getTransactionReference()
     {
+        if (empty($this->data)) {
+            return null;
+        }
+
         $attributes = $this->data->attributes();
 
         if (isset($attributes['orderCode'])) {
