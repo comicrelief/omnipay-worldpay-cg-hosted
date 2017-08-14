@@ -48,6 +48,69 @@ class NotificationTest extends TestCase
         $this->assertEquals(500, $notification->getResponseStatusCode());
     }
 
+    public function testAuthorisedFromInvalidIp()
+    {
+        $http = $this->getMockHttpResponse('NotificationAuthorised.txt');
+
+        $notification = new Notification(
+            $http->getBody(),
+            'not-a-real-ip'
+        );
+        $notification->getData();
+
+        $this->assertFalse($notification->isValid());
+        $this->assertFalse($notification->isAuthorised());
+        $this->assertEquals('AUTHORISED', $notification->getStatus());
+        $this->assertEquals('11001100-0000-0000-0000-000011110101', $notification->getTransactionReference());
+
+        $this->assertEquals('[ERROR]', $notification->getResponseBody());
+        $this->assertEquals(500, $notification->getResponseStatusCode());
+    }
+
+    public function testAuthorisedFromMissingIp()
+    {
+        $http = $this->getMockHttpResponse('NotificationAuthorised.txt');
+
+        $notification = new Notification(
+            $http->getBody(),
+            '' // no origin IP
+        );
+        $notification->getData();
+
+        $this->assertFalse($notification->isValid());
+        $this->assertFalse($notification->isAuthorised());
+        $this->assertEquals('AUTHORISED', $notification->getStatus());
+        $this->assertEquals('11001100-0000-0000-0000-000011110101', $notification->getTransactionReference());
+
+        $this->assertEquals('[ERROR]', $notification->getResponseBody());
+        $this->assertEquals(500, $notification->getResponseStatusCode());
+    }
+
+    /**
+     * Unexpected case, but check we handle the missing reference correctly
+     */
+    public function testAuthorisedMissingOrderCode()
+    {
+        $http = $this->getMockHttpResponse('NotificationAuthorisedMissingOrderCode.txt');
+
+        $notification = new Notification(
+            $http->getBody(),
+            self::ORIGIN_IP_VALID
+        );
+        $notification->getData();
+
+        $this->assertTrue($notification->isValid());
+        $this->assertTrue($notification->isAuthorised());
+        $this->assertEquals('AUTHORISED', $notification->getStatus());
+
+        // This should normally lead client apps to refuse the transaction as unexpected, but this logic is up to
+        // them - it doesn't make the payment intrinsically invalid.
+        $this->assertNull($notification->getTransactionReference());
+
+        $this->assertEquals('[OK]', $notification->getResponseBody());
+        $this->assertEquals(200, $notification->getResponseStatusCode());
+    }
+
     public function testCaptured()
     {
         $http = $this->getMockHttpResponse('NotificationCaptured.txt');
@@ -153,5 +216,14 @@ class NotificationTest extends TestCase
 
         $this->assertEquals('[ERROR]', $notification->getResponseBody());
         $this->assertEquals(500, $notification->getResponseStatusCode());
+    }
+
+    /**
+     * @expectedException \Omnipay\Common\Exception\InvalidResponseException
+     * @expectedExceptionMessage Invalid response from payment gateway
+     */
+    public function testEmptyData()
+    {
+        new Notification('', self::ORIGIN_IP_VALID);
     }
 }

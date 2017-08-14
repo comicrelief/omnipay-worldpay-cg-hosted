@@ -367,7 +367,7 @@ class PurchaseRequest extends AbstractRequest
         ];
 
         // First preference: Omnipay CreditCard brand constant match.
-        if (isset($code[strtolower($input)])) {
+        if (isset($codes[strtolower($input)])) {
             return $codes[strtolower($input)];
         }
 

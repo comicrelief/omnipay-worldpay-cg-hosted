@@ -123,7 +123,11 @@ class Notification extends AbstractResponse
      */
     private function originIsValid()
     {
-        $hostname = gethostbyaddr($this->originIp);
+        if (empty($this->originIp)) {
+            return false;
+        }
+
+        $hostname = @gethostbyaddr($this->originIp);
         if (!$hostname) { // Empty string or boolean false
             return false;
         }
