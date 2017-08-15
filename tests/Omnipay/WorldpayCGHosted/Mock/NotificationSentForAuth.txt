@@ -1,0 +1,31 @@
+HTTP/1.1 200 OK
+Connection: close
+Server: VPS-3.033.00
+Date: Sat, 23 Feb 2013 19:45:00 GMT
+Content-type: text/xml
+Content-length: 1196
+
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE paymentService PUBLIC "-//WorldPay//DTD WorldPay PaymentService v1//EN"
+        "http://dtd.worldpay.com/paymentService_v1.dtd">
+<paymentService version="1.4" merchantCode="MYTESTMERCHANT">
+    <notify>
+        <orderStatusEvent orderCode="11001100-0000-0000-0000-000011110101">
+            <payment>
+                <paymentMethod>VISA_CREDIT-SSL</paymentMethod>
+                <amount value="999" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
+                <lastEvent>SENT_FOR_AUTHORISATION</lastEvent>
+                <CVCResultCode description="C"/>
+                <AVSResultCode description="E"/>
+                <balance accountType="IN_PROCESS_CAPTURED">
+                    <amount value="999" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
+                </balance>
+                <riskScore value="-4"/>
+            </payment>
+            <journal journalType="SENT_FOR_AUTHORISATION">
+                <bookingDate>
+                    <date dayOfMonth="15" month="08" year="2017"/>
+                </bookingDate>
+            </journal>
+        </orderStatusEvent>
+    </notify>
+</paymentService>

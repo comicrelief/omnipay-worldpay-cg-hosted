@@ -38,12 +38,18 @@ The following gateways are provided by this package:
 For general usage instructions, please see the main
 [Omnipay](https://github.com/omnipay/omnipay) repository.
 
+## Order description
+
+We currently set the order description to "Donation" by default.
+
+To set another one, use `PurchaseRequest::setDescription()`.
+
 ## Worldpay notifications verification
 
 Worldpay recommend the following to receive notifications and check they came from them:
 
 1. Use server SSL - this should be standard for any payment app!
-2. Check the IP's reverse DNS records - this actually isn't very secure and can be spoofed, but is implemented in this library as a first line of defence.
+2. Check the IP's reverse DNS records - this actually isn't very secure and can be spoofed, but is implemented in this library as a first line of defence. There is an IP fallback for known Worldpay subnets, in case your environment can't do public reverse DNS lookups.
 3. Request for them to send, and validate on your server, their client TLS certificate.
 
 Unfortunately there's no easy server- and environment-agnostic way to implement client TLS verification (point 3) within this library, and for our apps' current infrastructure it wasn't feasible. Some of the work would generally live in your web server anyway rather than this library.

@@ -18,8 +18,12 @@ class Notification extends AbstractResponse
     const RESPONSE_CODE_SUCCESS = 200;          // Must be 200 for Worldpay.
     const RESPONSE_BODY_ERROR   = '[ERROR]';    // Arbitrary not-OK string.
     const RESPONSE_CODE_ERROR   = 500;
+
     /** @var string */
     private $originIp;
+
+    /** @var bool */
+    private $allowIpBasedOriginCheck = true;
 
     /** @noinspection PhpMissingParentConstructorInspection
      * @param string                $data
@@ -135,6 +139,21 @@ class Notification extends AbstractResponse
         $expectedEnd = 'worldpay.com';
         $expectedPosition = strlen($hostname) - strlen($expectedEnd);
 
-        return (strpos($hostname, $expectedEnd) === $expectedPosition);
+        if (strpos($hostname, $expectedEnd) === $expectedPosition) {
+            return true;
+        }
+
+        if (
+            $this->allowIpBasedOriginCheck &&
+            $this->originIp === $hostname &&
+            (
+                strpos($hostname, '195.35.90') === 0 ||
+                strpos($hostname, '195.35.91') === 0
+            )
+        ) {
+            return true;
+        }
+
+        return false;
     }
 }
