@@ -9,9 +9,13 @@ namespace Omnipay\WorldpayCGHosted\Message;
 trait ResponseTrait
 {
     /** @var string */
-    protected static $PAYMENT_STATUS_AUTHORISED = 'AUTHORISED';
+    protected static $PAYMENT_STATUS_AUTHORISED             = 'AUTHORISED';
     /** @var string */
-    protected static $PAYMENT_STATUS_CAPTURED   = 'CAPTURED';
+    protected static $PAYMENT_STATUS_CAPTURED               = 'CAPTURED';
+    /** @var string */
+    protected static $PAYMENT_STATUS_SETTLED_BY_MERCHANT    = 'SETTLED_BY_MERCHANT';
+    /** @var string */
+    protected static $PAYMENT_STATUS_SENT_FOR_AUTHORISATION = 'SENT_FOR_AUTHORISATION';
 
     /**
      * Get transaction reference
@@ -49,6 +53,22 @@ trait ResponseTrait
             [
                 self::$PAYMENT_STATUS_AUTHORISED,
                 self::$PAYMENT_STATUS_CAPTURED,
+                self::$PAYMENT_STATUS_SETTLED_BY_MERCHANT,
+            ],
+            true
+        );
+    }
+
+    public function isPending()
+    {
+        if (!isset($this->data->payment->lastEvent)) {
+            return false;
+        }
+
+        return in_array(
+            strtoupper($this->data->payment->lastEvent),
+            [
+                self::$PAYMENT_STATUS_SENT_FOR_AUTHORISATION,
             ],
             true
         );
