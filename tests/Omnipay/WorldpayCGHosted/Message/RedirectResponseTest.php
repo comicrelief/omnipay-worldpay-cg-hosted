@@ -31,7 +31,7 @@ class RedirectResponseTest extends TestCase
         $this->assertEquals('GET', $response->getRedirectMethod());
         $this->assertEquals([], $response->getRedirectData());
 
-        $this->assertEquals('11001100-0000-0000-0000-000011110101', $response->getTransactionReference());
-        $this->assertEquals('7457457457', $response->getTransactionId());
+        $this->assertEquals('11001100-0000-0000-0000-000011110101', $response->getTransactionId());
+        $this->assertEquals('7457457457', $response->getTransactionReference());
     }
 }

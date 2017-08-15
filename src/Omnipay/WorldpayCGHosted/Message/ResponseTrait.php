@@ -22,7 +22,7 @@ trait ResponseTrait
      *
      * @return string|null
      */
-    public function getTransactionReference()
+    public function getTransactionId()
     {
         if (empty($this->data)) {
             return null;

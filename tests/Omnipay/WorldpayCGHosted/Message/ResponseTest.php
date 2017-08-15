@@ -25,7 +25,7 @@ class ResponseTest extends TestCase
 
         $this->assertTrue($response->isRedirect());
         $this->assertFalse($response->isSuccessful());
-        $this->assertEquals('11001100-0000-0000-0000-000011110101', $response->getTransactionReference());
+        $this->assertEquals('11001100-0000-0000-0000-000011110101', $response->getTransactionId());
         $this->assertEquals('PENDING', $response->getMessage());
     }
 
@@ -43,7 +43,7 @@ class ResponseTest extends TestCase
 
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
-        $this->assertEquals('T0211010', $response->getTransactionReference());
+        $this->assertEquals('T0211010', $response->getTransactionId());
         $this->assertEquals('AUTHORISED', $response->getMessage());
     }
 
@@ -57,7 +57,7 @@ class ResponseTest extends TestCase
 
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
-        $this->assertEquals('T0211234', $response->getTransactionReference());
+        $this->assertEquals('T0211234', $response->getTransactionId());
         $this->assertSame('CARD EXPIRED', $response->getMessage());
     }
 
@@ -72,7 +72,7 @@ class ResponseTest extends TestCase
 
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
-        $this->assertEquals('T0211234', $response->getTransactionReference());
+        $this->assertEquals('T0211234', $response->getTransactionId());
         $this->assertSame('ERROR: Nasty internal error!', $response->getMessage());
     }
 }

@@ -129,7 +129,7 @@ class Response extends AbstractResponse
      *
      * @return string|null
      */
-    public function getTransactionId()
+    public function getTransactionReference()
     {
         if (empty($this->data->reference)) {
             return null;

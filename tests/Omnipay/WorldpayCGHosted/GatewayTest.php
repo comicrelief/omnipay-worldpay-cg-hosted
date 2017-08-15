@@ -65,7 +65,8 @@ class GatewayTest extends GatewayTestCase
 
         $this->assertTrue($response->isRedirect());
         $this->assertFalse($response->isSuccessful());
-        $this->assertEquals('11001100-0000-0000-0000-000011110101', $response->getTransactionReference());
+        $this->assertEquals('11001100-0000-0000-0000-000011110101', $response->getTransactionId());
+        $this->assertEquals('7457457457', $response->getTransactionReference());
     }
 
     public function testPurchaseError()
