@@ -123,4 +123,24 @@ class Response extends AbstractResponse
     {
         return (isset($this->data->reference));
     }
+
+    /**
+     * Get Worldpay's internal transaction ID
+     *
+     * @return string|null
+     */
+    public function getTransactionId()
+    {
+        if (empty($this->data->reference)) {
+            return null;
+        }
+
+        $attributes = $this->data->reference->attributes();
+
+        if (isset($attributes['id'])) {
+            return $attributes['id'];
+        }
+
+        return null;
+    }
 }

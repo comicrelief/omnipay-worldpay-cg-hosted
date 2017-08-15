@@ -18,7 +18,7 @@ trait ResponseTrait
     protected static $PAYMENT_STATUS_SENT_FOR_AUTHORISATION = 'SENT_FOR_AUTHORISATION';
 
     /**
-     * Get transaction reference
+     * Get transaction reference provided with order, and sent back with notifications
      *
      * @return string|null
      */
