@@ -1,10 +1,6 @@
 # Omnipay: Worldpay Hosted Corporate Gateway (XML)
 
-## NOT PRODUCTION READY!
-
-**WORK IN PROGRESS August 2017**
-
-This fork from teaandcode/omnipay-worldpay-xml is in active dev, and is not yet tested.
+_Caution!_ This fork from teaandcode/omnipay-worldpay-xml is in active development, and not yet widely tested.
 
 **WorldPay Hosted driver for the Omnipay PHP payment processing library**
 
@@ -19,7 +15,7 @@ add it to your `composer.json` file:
 ```json
 {
     "require": {
-        "comicrelief/omnipay-worldpay-cg-hosted": "~1.0"
+        "comicrelief/omnipay-worldpay-cg-hosted": "^0.0.5"
     }
 }
 ```
@@ -44,7 +40,15 @@ We currently set the order description to "Donation" by default.
 
 To set another one, use `PurchaseRequest::setDescription()`.
 
-## Worldpay notifications verification
+## Notification setup
+
+This library aims to be able to give sensible answers for `isValid()`, `isAuthorised()`, `isPending()` and `isCancelled()`, if you select every possible type on this screen:
+
+![Notification setup](./docs/Notification%20setup.png "Notification setup")
+
+It's probably safest to tick everything you can, so as not to miss notifications you might care about.
+
+## Notification verification
 
 Worldpay recommend the following to receive notifications and check they came from them:
 
