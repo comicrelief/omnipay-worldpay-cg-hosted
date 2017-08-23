@@ -26,6 +26,7 @@ class ResponseTest extends TestCase
 
         $this->assertTrue($response->isRedirect());
         $this->assertFalse($response->isSuccessful());
+        $this->assertInternalType('string', $response->getTransactionId());
         $this->assertEquals('11001100-0000-0000-0000-000011110101', $response->getTransactionId());
         $this->assertEquals('PENDING', $response->getMessage());
     }

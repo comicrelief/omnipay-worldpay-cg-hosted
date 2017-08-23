@@ -33,7 +33,7 @@ trait ResponseTrait
         $attributes = $this->getOrder()->attributes();
 
         if (isset($attributes['orderCode'])) {
-            return $attributes['orderCode'];
+            return (string) $attributes['orderCode'];
         }
 
         return null;

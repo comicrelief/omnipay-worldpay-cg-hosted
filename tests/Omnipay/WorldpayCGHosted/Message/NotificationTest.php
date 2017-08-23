@@ -24,6 +24,7 @@ class NotificationTest extends TestCase
         $this->assertFalse($notification->isPending());
         $this->assertFalse($notification->isCancelled());
         $this->assertEquals('AUTHORISED', $notification->getStatus());
+        $this->assertInternalType('string', $notification->getTransactionId());
         $this->assertEquals('11001100-0000-0000-0000-000011110101', $notification->getTransactionId());
 
         $this->assertEquals('[OK]', $notification->getResponseBody());
