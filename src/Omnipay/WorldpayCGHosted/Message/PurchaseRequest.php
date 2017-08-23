@@ -298,7 +298,7 @@ class PurchaseRequest extends AbstractRequest
         $document->appendChild($node);
 
         $authorisation = base64_encode(
-            $this->getMerchant() . ':' . $this->getPassword()
+            $this->getUsername() . ':' . $this->getPassword()
         );
 
         $headers = [
