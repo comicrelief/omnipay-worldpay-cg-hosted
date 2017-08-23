@@ -82,6 +82,27 @@ class PurchaseRequest extends AbstractRequest
     }
 
     /**
+     * Get the separate username if configured (more secure approach for basic auth) or fallback to merchant if not
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->parameters->get('username', $this->getParameter('merchant'));
+    }
+
+    /**
+     * Set basic auth username
+     *
+     * @param string $value
+     * @return AbstractRequest
+     */
+    public function setUsername($value)
+    {
+        return $this->setParameter('username', $value);
+    }
+
+    /**
      * Get pa response
      *
      * @return string
@@ -277,7 +298,7 @@ class PurchaseRequest extends AbstractRequest
         $document->appendChild($node);
 
         $authorisation = base64_encode(
-            $this->getMerchant() . ':' . $this->getPassword()
+            $this->getUsername() . ':' . $this->getPassword()
         );
 
         $headers = [

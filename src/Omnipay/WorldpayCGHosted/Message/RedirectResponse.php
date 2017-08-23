@@ -38,7 +38,7 @@ class RedirectResponse extends Response implements RedirectResponseInterface
      */
     public function getRedirectUrl()
     {
-        $url = $this->data->reference->__toString();
+        $url = $this->getOrder()->reference->__toString();
 
         // Custom result URLs available: http://bit.ly/2uRpuX0
         if (!empty($this->successUrl)) {

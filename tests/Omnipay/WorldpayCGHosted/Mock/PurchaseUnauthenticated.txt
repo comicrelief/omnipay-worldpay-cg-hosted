@@ -1,0 +1,28 @@
+HTTP/1.1 401 Unauthorized
+Connection: close
+Server: VPS-3.033.00
+Date: Sat, 23 Feb 2013 05:17:32 GMT
+Content-type: text/html
+Content-length: 767
+
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <title>401: Requires Authentication</title>
+        <style type="text/css" media="print"> @import url(/pictures/print.css);</style>
+        <style type="text/css" media="screen"> @import url(/pictures/adminstyle-branded.css);</style>
+    </head>
+    <body class="standalone">
+        <div class="content">
+            <span class="legend">Requires Authentication</span>
+            <div class="status">Status: 401</div>
+            <p>
+            This request requires HTTP authentication.
+
+                <br />
+            </p>
+        </div>
+    </body>
+</html>
