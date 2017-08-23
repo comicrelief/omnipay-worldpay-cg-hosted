@@ -1,0 +1,11 @@
+HTTP/1.1 200 OK
+Connection: close
+Server: VPS-3.033.00
+Date: Sat, 23 Feb 2013 05:17:32 GMT
+Content-type: text/xml
+Content-length: 376
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE paymentService PUBLIC "-//WorldPay//DTD WorldPay PaymentService v1//EN"
+                                "http://dtd.worldpay.com/paymentService_v1.dtd">
+<paymentService version="1.4.1" merchantCode="MYMERCHANT"><reply><error>Nasty internal error!</error></reply></paymentService>

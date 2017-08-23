@@ -5,8 +5,6 @@ namespace Omnipay\WorldpayCGHosted\Message;
 /**
  * Encapsulates response-like behaviour shared between actual Worldpay response objects and notifications, which
  * actually come in Worldpay-initiated requests.
- *
- * @method \SimpleXMLElement|null getData()
  */
 trait ResponseTrait
 {
@@ -28,11 +26,11 @@ trait ResponseTrait
      */
     public function getTransactionId()
     {
-        if (empty($this->getData())) {
+        if (empty($this->getOrder())) {
             return null;
         }
 
-        $attributes = $this->getData()->attributes();
+        $attributes = $this->getOrder()->attributes();
 
         if (isset($attributes['orderCode'])) {
             return $attributes['orderCode'];
@@ -48,12 +46,12 @@ trait ResponseTrait
      */
     public function isSuccessful()
     {
-        if (!isset($this->getData()->payment->lastEvent)) {
+        if (!isset($this->getOrder()->payment->lastEvent)) {
             return false;
         }
 
         return in_array(
-            strtoupper($this->getData()->payment->lastEvent),
+            strtoupper($this->getOrder()->payment->lastEvent),
             [
                 self::$PAYMENT_STATUS_AUTHORISED,
                 self::$PAYMENT_STATUS_CAPTURED,
@@ -70,12 +68,12 @@ trait ResponseTrait
      */
     public function isPending()
     {
-        if (!isset($this->getData()->payment->lastEvent)) {
+        if (!isset($this->getOrder()->payment->lastEvent)) {
             return false;
         }
 
         return in_array(
-            strtoupper($this->getData()->payment->lastEvent),
+            strtoupper($this->getOrder()->payment->lastEvent),
             [
                 self::$PAYMENT_STATUS_SENT_FOR_AUTHORISATION,
             ],
@@ -90,16 +88,29 @@ trait ResponseTrait
      */
     public function isCancelled()
     {
-        if (!isset($this->getData()->payment->lastEvent)) {
+        if (!isset($this->getOrder()->payment->lastEvent)) {
             return false;
         }
 
         return in_array(
-            strtoupper($this->getData()->payment->lastEvent),
+            strtoupper($this->getOrder()->payment->lastEvent),
             [
                 self::$PAYMENT_STATUS_CANCELLED,
             ],
             true
         );
+    }
+
+    public function getOrder()
+    {
+        if (isset($this->data->orderStatusEvent)) {
+            return $this->data->orderStatusEvent; // Notifications
+        }
+
+        if (isset($this->data->orderStatus)) {
+            return $this->data->orderStatus; // Order responses
+        }
+
+        return null;
     }
 }

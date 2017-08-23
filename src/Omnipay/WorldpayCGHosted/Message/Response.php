@@ -14,7 +14,6 @@ class Response extends AbstractResponse
 {
     use ResponseTrait;
 
-    /** @noinspection PhpMissingParentConstructorInspection */
     /**
      * @param RequestInterface $request Request
      * @param string           $data    Data
@@ -25,15 +24,21 @@ class Response extends AbstractResponse
         $this->request = $request;
 
         if (empty($data)) {
-            throw new InvalidResponseException();
+            throw new InvalidResponseException('Empty data received');
         }
 
         $responseDom = new DOMDocument;
-        $responseDom->loadXML($data);
+        if (!@$responseDom->loadXML($data)) {
+            throw new InvalidResponseException('Non-XML notification response received');
+        }
 
-        $this->data = simplexml_import_dom(
-            $responseDom->documentElement->firstChild->firstChild
+        $this->data = @simplexml_import_dom(
+            $responseDom->documentElement->firstChild // <notify> or <reply>
         );
+
+        if (empty($this->data)) {
+            throw new InvalidResponseException('Could not import response XML: ' . $data);
+        }
     }
 
     /**
@@ -91,27 +96,38 @@ class Response extends AbstractResponse
             97 => 'SECURITY BREACH'
         ];
 
-        $message = 'PENDING';
-
         if (isset($this->data->error)) {
-            $message = 'ERROR: ' . $this->data->error;
+            return 'ERROR: ' . $this->data->error; // Cast to string to get CDATA content
         }
 
-        if (isset($this->data->payment->ISO8583ReturnCode)) {
-            $returnCode = $this->data->payment->ISO8583ReturnCode->attributes();
+        $payment = $this->getOrder()->payment;
+        if (isset($payment->ISO8583ReturnCode)) {
+            $returnCode = $payment->ISO8583ReturnCode->attributes();
 
             foreach ($returnCode as $name => $value) {
                 if ($name == 'code') {
-                    $message = $codes[intval($value)];
+                    return $codes[intval($value)];
                 }
             }
         }
 
         if ($this->isSuccessful()) {
-            $message = $codes[0];
+            return $codes[0];
         }
 
-        return $message;
+        return 'PENDING';
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getErrorCode()
+    {
+        if (!isset($this->data->error) || empty($this->data->error->attributes()['code'])) {
+            return null;
+        }
+
+        return (string) $this->data->error->attributes()['code'];
     }
 
     /**
@@ -121,7 +137,7 @@ class Response extends AbstractResponse
      */
     public function isRedirect()
     {
-        return (isset($this->data->reference));
+        return (isset($this->getOrder()->reference));
     }
 
     /**
@@ -131,11 +147,11 @@ class Response extends AbstractResponse
      */
     public function getTransactionReference()
     {
-        if (empty($this->data->reference)) {
+        if (empty($this->getOrder()->reference)) {
             return null;
         }
 
-        $attributes = $this->data->reference->attributes();
+        $attributes = $this->getOrder()->reference->attributes();
 
         if (isset($attributes['id'])) {
             return $attributes['id'];

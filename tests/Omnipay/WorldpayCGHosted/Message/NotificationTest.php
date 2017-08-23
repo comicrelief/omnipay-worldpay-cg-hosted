@@ -18,7 +18,6 @@ class NotificationTest extends TestCase
             $http->getBody(),
             self::ORIGIN_IP_VALID
         );
-        $notification->getData();
 
         $this->assertTrue($notification->isValid());
         $this->assertTrue($notification->isAuthorised());
@@ -39,7 +38,6 @@ class NotificationTest extends TestCase
             $http->getBody(),
             self::ORIGIN_IP_VALID
         );
-        $notification->getData();
 
         $this->assertTrue($notification->isValid());
         $this->assertFalse($notification->isAuthorised());
@@ -60,7 +58,6 @@ class NotificationTest extends TestCase
             $http->getBody(),
             self::ORIGIN_IP_BAD
         );
-        $notification->getData();
 
         $this->assertFalse($notification->isValid());
         $this->assertFalse($notification->isAuthorised());
@@ -81,7 +78,6 @@ class NotificationTest extends TestCase
             $http->getBody(),
             'not-a-real-ip'
         );
-        $notification->getData();
 
         $this->assertFalse($notification->isValid());
         $this->assertFalse($notification->isAuthorised());
@@ -102,7 +98,6 @@ class NotificationTest extends TestCase
             $http->getBody(),
             '' // no origin IP
         );
-        $notification->getData();
 
         $this->assertFalse($notification->isValid());
         $this->assertFalse($notification->isAuthorised());
@@ -126,7 +121,6 @@ class NotificationTest extends TestCase
             $http->getBody(),
             self::ORIGIN_IP_VALID
         );
-        $notification->getData();
 
         $this->assertTrue($notification->isValid());
         $this->assertTrue($notification->isAuthorised());
@@ -150,7 +144,6 @@ class NotificationTest extends TestCase
             $http->getBody(),
             self::ORIGIN_IP_VALID
         );
-        $notification->getData();
 
         $this->assertTrue($notification->isValid());
         $this->assertTrue($notification->isAuthorised());
@@ -171,7 +164,6 @@ class NotificationTest extends TestCase
             $http->getBody(),
             self::ORIGIN_IP_VALID
         );
-        $notification->getData();
 
         $this->assertTrue($notification->isValid());
         $this->assertFalse($notification->isAuthorised());
@@ -192,7 +184,6 @@ class NotificationTest extends TestCase
             $http->getBody(),
             self::ORIGIN_IP_VALID
         );
-        $notification->getData();
 
         $this->assertTrue($notification->isValid());
         $this->assertFalse($notification->isAuthorised());
@@ -213,7 +204,6 @@ class NotificationTest extends TestCase
             $http->getBody(),
             self::ORIGIN_IP_VALID
         );
-        $notification->getData();
 
         $this->assertTrue($notification->isValid());
         $this->assertFalse($notification->isAuthorised());
@@ -246,7 +236,6 @@ class NotificationTest extends TestCase
             $http->getBody(),
             self::ORIGIN_IP_VALID
         );
-        $notification->getData();
 
         $this->assertFalse($notification->isValid());
         $this->assertFalse($notification->isAuthorised());

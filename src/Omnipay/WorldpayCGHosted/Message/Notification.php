@@ -44,7 +44,7 @@ class Notification extends AbstractResponse
         }
 
         $document = simplexml_import_dom($responseDom->documentElement);
-        $this->data = $document->notify->orderStatusEvent;
+        $this->data = $document->notify;
     }
 
     /**
@@ -62,7 +62,7 @@ class Notification extends AbstractResponse
             return null;
         }
 
-        return $this->data->payment->lastEvent->__toString();
+        return $this->getOrder()->payment->lastEvent->__toString();
     }
 
     /**
@@ -70,7 +70,7 @@ class Notification extends AbstractResponse
      */
     public function hasStatus()
     {
-        return !empty($this->data->payment->lastEvent);
+        return !empty($this->getOrder()->payment->lastEvent);
     }
 
     /**
