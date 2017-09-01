@@ -26,6 +26,7 @@ class NotificationTest extends TestCase
         $this->assertEquals('AUTHORISED', $notification->getStatus());
         $this->assertInternalType('string', $notification->getTransactionId());
         $this->assertEquals('11001100-0000-0000-0000-000011110101', $notification->getTransactionId());
+        $this->assertEquals('ECMC-SSL', $notification->getCardType());
 
         $this->assertEquals('[OK]', $notification->getResponseBody());
         $this->assertEquals(200, $notification->getResponseStatusCode());

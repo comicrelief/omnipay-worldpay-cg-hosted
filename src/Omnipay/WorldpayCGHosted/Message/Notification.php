@@ -93,6 +93,20 @@ class Notification extends AbstractResponse
     }
 
     /**
+     * Gets the card type code in Worldpay format (e.g. 'ECMC-SSL') if available.
+     *
+     * @return string|null
+     */
+    public function getCardType()
+    {
+        if (empty($this->getOrder()->payment->paymentMethod)) {
+            return null;
+        }
+
+        return $this->getOrder()->payment->paymentMethod->__toString();
+    }
+
+    /**
      * Gets the body of the response your app should provide to the Worldpay bot for this request.
      *
      * @return string
