@@ -225,7 +225,7 @@ class PurchaseRequest extends AbstractRequest
             $order->addAttribute('orderCode', $this->getTransactionId());
             $order->addAttribute('installationId', $this->getInstallation());
 
-            $description = $this->getDescription() ? $this->getDescription() : 'Donation';
+            $description = $this->getDescription() ? $this->getDescription() : 'Merchandise';
             $order->addChild('description', $description);
 
             $amount = $order->addChild('amount');

@@ -110,7 +110,7 @@ class GatewayTest extends GatewayTestCase
         $this->assertEquals('ACMECO', $data->attributes()['merchantCode']);
         $this->assertEquals($this->parameters['transactionId'], $order->attributes()['orderCode']);
         $this->assertEquals('ABC123', $order->attributes()['installationId']);
-        $this->assertEquals('Donation', $order->description);
+        $this->assertEquals('Merchandise', $order->description);
         $this->assertEquals('745', $order->amount->attributes()['value']);
         $this->assertEquals('GBP', $order->amount->attributes()['currencyCode']);
         $this->assertEquals('2', $order->amount->attributes()['exponent']);
