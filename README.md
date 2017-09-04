@@ -36,7 +36,7 @@ For general usage instructions, please see the main
 
 ## Order description
 
-We currently set the order description to "Donation" by default.
+We currently set the order description to "Merchandise" by default.
 
 To set another one, use `PurchaseRequest::setDescription()`.
 

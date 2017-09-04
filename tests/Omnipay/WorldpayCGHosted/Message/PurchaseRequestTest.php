@@ -35,7 +35,7 @@ class PurchaseRequestTest extends TestCase
     public function testDefaultDescription()
     {
         $data = $this->purchase->getData();
-        $this->assertEquals('Donation', $data->submit->order->description);
+        $this->assertEquals('Merchandise', $data->submit->order->description);
     }
 
     public function testPaymentMethodMaskWithKnownOmnipayType()
