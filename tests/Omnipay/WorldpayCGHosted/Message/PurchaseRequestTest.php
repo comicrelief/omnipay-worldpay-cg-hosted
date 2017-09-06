@@ -18,7 +18,23 @@ class PurchaseRequestTest extends TestCase
         $this->purchase = new PurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->purchase->setAmount(7.45);
         $this->purchase->setCurrency('GBP');
-        $this->purchase->setCard(new CreditCard());
+        $this->purchase->setCard(new CreditCard([
+            'billingFirstName' => 'Vince',
+            'billingLastName' => 'Staples',
+            'shippingFirstName' => 'Vince',
+            'shippingLastName' => 'Staples',
+            'email' => 'cr+vs@noellh.com',
+            'billingAddress1' => '745 THORNBURY CLOSE',
+            'shippingAddress1' => '745 THORNBURY CLOSE',
+            'billingAddress2' => '',
+            'shippingAddress2' => '',
+            'billingCity' => 'LONDON',
+            'shippingCity' => 'LONDON',
+            'billingCountry' => 'GB',
+            'shippingCountry' => 'GB',
+            'billingPostcode' => 'N16 8UX',
+            'shippingPostcode' => 'N16 8UX',
+        ]));
     }
 
     public function testAmountDetails()
@@ -40,7 +56,7 @@ class PurchaseRequestTest extends TestCase
 
     public function testPaymentMethodMaskWithKnownOmnipayType()
     {
-        $this->purchase->setPaymentType('mAstErcARd');  // gets lowercased for array key
+        $this->purchase->setPaymentType('mAstErcARd'); // gets lowercased for array key
         $data = $this->purchase->getData();
         $this->assertEquals('ECMC-SSL', $data->submit->order->paymentMethodMask->include->attributes()['code']);
     }
@@ -66,9 +82,12 @@ class PurchaseRequestTest extends TestCase
         $this->assertEquals('ECMC-SSL', $data->submit->order->paymentMethodMask->include->attributes()['code']);
     }
 
+    /**
+     * For a type we don't know about, we should not apply a payment type mask, i.e. 'ALL' are shown
+     */
     public function testPaymentMethodMaskWithUnknownType()
     {
-        $this->purchase->setPaymentType('Bitcoin'); // Visa Electron
+        $this->purchase->setPaymentType('Bitcoin');
         $data = $this->purchase->getData();
         $this->assertEquals('ALL', $data->submit->order->paymentMethodMask->include->attributes()['code']);
     }
@@ -78,6 +97,44 @@ class PurchaseRequestTest extends TestCase
         $this->purchase->setDescription('Goods n services');
         $data = $this->purchase->getData();
         $this->assertEquals('Goods n services', $data->submit->order->description);
+    }
+
+    public function testAddressInNormalCase()
+    {
+        $data = $this->purchase->getData();
+        $this->assertEquals('745 THORNBURY CLOSE', (string) $data->submit->order->billingAddress->address->address1);
+        $this->assertEquals('LONDON', (string) $data->submit->order->billingAddress->address->city);
+        $this->assertEquals('N16 8UX', (string) $data->submit->order->billingAddress->address->postalCode);
+        $this->assertEquals('GB', (string) $data->submit->order->billingAddress->address->countryCode);
+    }
+
+    /**
+     * @expectedException \Omnipay\Common\Exception\InvalidCreditCardException
+     * @expectedExceptionMessage A billing address is required for this transaction
+     */
+    public function testAddressMissingWhenRequired()
+    {
+        $this->purchase->setCard(new CreditCard(['email' => 'cr+vs@noellh.com'])); // Remove postal address info
+        $this->purchase->getData();
+    }
+
+    public function testAddressProvidedButIgnored()
+    {
+        $this->purchase->setUseBillingAddress(false);
+        $data = $this->purchase->getData();
+
+        $this->assertEquals('cr+vs@noellh.com', (string) $data->submit->order->shopper->shopperEmailAddress);
+        $this->assertEquals(0, $data->submit->order->billingAddress->count());
+    }
+
+    public function testAddressMissingAndIgnored()
+    {
+        $this->purchase->setUseBillingAddress(false);
+        $this->purchase->setCard(new CreditCard(['email' => 'cr+vs@noellh.com'])); // Remove postal address info
+        $data = $this->purchase->getData();
+
+        $this->assertEquals('cr+vs@noellh.com', (string) $data->submit->order->shopper->shopperEmailAddress);
+        $this->assertEquals(0, $data->submit->order->billingAddress->count());
     }
 
     /**

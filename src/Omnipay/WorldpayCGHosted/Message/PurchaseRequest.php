@@ -252,7 +252,11 @@ class PurchaseRequest extends AbstractRequest
             $browser->addChild('acceptHeader', $this->getAcceptHeader());
             $browser->addChild('userAgentHeader', $this->getUserAgentHeader());
 
-            if ($this->getCard()) {
+            if ($this->getUseBillingAddress() && (!$this->getCard() || !$this->getCard()->getPostcode())) {
+                throw new InvalidCreditCardException('A billing address is required for this transaction');
+            }
+
+            if ($this->getCard() && $this->getUseBillingAddress()) {
                 $address = $order->addChild('billingAddress')->addChild('address');
                 $address->addChild('firstName', $this->getCard()->getFirstName());
                 $address->addChild('lastName', $this->getCard()->getLastName());
@@ -343,6 +347,22 @@ class PurchaseRequest extends AbstractRequest
     public function setFailureUrl($value)
     {
         return $this->setParameter('failureUrl', $value);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getUseBillingAddress()
+    {
+        return $this->parameters->get('useBillingAddress', true); // default to true
+    }
+
+    /**
+     * @param bool $enabled
+     */
+    public function setUseBillingAddress($enabled)
+    {
+        $this->setParameter('useBillingAddress', $enabled);
     }
 
     /**

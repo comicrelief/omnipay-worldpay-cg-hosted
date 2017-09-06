@@ -131,6 +131,27 @@ class GatewayTest extends GatewayTestCase
         $this->assertEquals($this->parameters['notifyUrl'], $purchase->getNotifyUrl());
     }
 
+    /**
+     * Billing address is required with default settings
+     *
+     * @expectedException \Omnipay\Common\Exception\InvalidCreditCardException
+     * @expectedExceptionMessage A billing address is required for this transaction
+     */
+    public function testMissingAddressWithDefaultLogic()
+    {
+        $cardWithoutAddress = new CreditCard([
+            'email' => 'cr+vs@noellh.com',
+        ]);
+
+        $purchase = $this->gateway->purchase($this->parameters);
+        $purchase->setTestMode(true);
+        $purchase->setInstallation('ABC123');
+        $purchase->setMerchant('ACMECO');
+        $purchase->setCard($cardWithoutAddress);
+
+        $purchase->getData();
+    }
+
     public function testAuxiliarySettersAndGetters()
     {
         $this->assertNull($this->gateway->getAcceptHeader());
