@@ -51,8 +51,8 @@ class Notification extends AbstractResponse
      * Get the most recent Worldpay status string as of this notification,
      * e.g. AUTHORISED, CAPTURED, REFUSED, CANCELLED, ...
      *
-     * @link http://bit.ly/wp-notification-statuses Which statuses trigger notifications
-     * @link http://bit.ly/wp-status-detail         More detail on statuses
+     * @link https://bit.ly/wp-cg-notification-statuses Which statuses trigger notifications
+     * @link https://bit.ly/wp-cg-payment-process       More detail on the payment process with statuses
      *
      * @return string|null
      */
