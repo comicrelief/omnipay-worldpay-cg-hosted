@@ -1,7 +1,5 @@
 # Omnipay: Worldpay Hosted Corporate Gateway (XML)
 
-_Caution!_ This fork from teaandcode/omnipay-worldpay-xml is in active development, and not yet widely tested.
-
 **WorldPay Hosted driver for the Omnipay PHP payment processing library**
 
 [Omnipay](https://github.com/omnipay/omnipay) is a framework agnostic,
@@ -42,11 +40,15 @@ To set another one, use `PurchaseRequest::setDescription()`.
 
 ## Notification setup
 
-This library aims to be able to give sensible answers for `isValid()`, `isAuthorised()`, `isPending()` and `isCancelled()`, if you select every possible type on this screen:
+This library aims to be able to give sensible answers for `isValid()`, `isAuthorised()`, `isPending()` and `isCancelled()`, if you select almost every possible type on this screen:
 
 ![Notification setup](./docs/Notification%20setup.png "Notification setup")
 
-It's probably safest to tick everything you can, so as not to miss notifications you might care about.
+Generally it's good to tick everything you can, so as not to miss notifications you might care about.
+
+However we've had to **not tick _SENT_FOR_AUTHORISATION_** because of an apparent Worldpay bug that sends two _AUTHORISED_ notifications when this is selected, instead of sending the additional type.
+
+We have not yet had confirmation from Worldpay on whether this is expected to affect the production gateway or if it will be fixed, so it's safer not to enable this notification for now.
 
 ## Notification verification
 
