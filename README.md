@@ -13,7 +13,7 @@ add it to your `composer.json` file:
 ```json
 {
     "require": {
-        "comicrelief/omnipay-worldpay-cg-hosted": "^0.0.5"
+        "comicrelief/omnipay-worldpay-cg-hosted": "^1.0.0"
     }
 }
 ```
