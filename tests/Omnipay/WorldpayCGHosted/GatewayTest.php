@@ -23,6 +23,9 @@ class GatewayTest extends GatewayTestCase
             $this->getHttpClient(),
             $this->getHttpRequest()
         );
+        $this->gateway->setMerchant('ACMECO');
+        $this->gateway->setTestMode(true);
+        $this->gateway->setInstallation('ABC123');
 
         $this->parameters = [
             'amount' => 7.45,
@@ -60,7 +63,6 @@ class GatewayTest extends GatewayTestCase
 
         $purchase = $this->gateway->purchase($this->parameters);
         $purchase->setCard($this->card);
-        $purchase->setTestMode(true);
         $response = $purchase->send();
 
         $this->assertTrue($response->isRedirect());
@@ -75,7 +77,6 @@ class GatewayTest extends GatewayTestCase
 
         $purchase = $this->gateway->purchase($this->parameters);
         $purchase->setCard($this->card);
-        $purchase->setTestMode(true);
         $response = $purchase->send();
 
         $this->assertFalse($response->isSuccessful());
@@ -88,17 +89,16 @@ class GatewayTest extends GatewayTestCase
     public function testMissingCard()
     {
         $purchase = $this->gateway->purchase($this->parameters);
-        $purchase->setTestMode(true);
         $purchase->send();
     }
 
     public function testPurchaseRequestDataSetUp()
     {
         $purchase = $this->gateway->purchase($this->parameters);
-        $purchase->setTestMode(true);
-        $purchase->setInstallation('ABC123');
-        $purchase->setMerchant('ACMECO');
         $purchase->setCard($this->card);
+
+        // Confirm basic auth uses merchant code to authenticate when there's no username.
+        $this->assertEquals('ACMECO', $purchase->getUsername());
 
         /** @var \SimpleXMLElement $data */
         $data = $purchase->getData();
@@ -132,6 +132,20 @@ class GatewayTest extends GatewayTestCase
     }
 
     /**
+     * Confirm basic auth uses a username when set rather than merchant code.
+     */
+    public function testUsernameAuthSetup()
+    {
+        $gatewayWithUsername = clone $this->gateway;
+        $gatewayWithUsername->setUsername('MYSECRETUSERNAME987');
+
+        $purchase = $gatewayWithUsername->purchase($this->parameters);
+        $purchase->setCard($this->card);
+
+        $this->assertEquals('MYSECRETUSERNAME987', $purchase->getUsername());
+    }
+
+    /**
      * Billing address is required with default settings
      *
      * @expectedException \Omnipay\Common\Exception\InvalidCreditCardException
@@ -144,9 +158,6 @@ class GatewayTest extends GatewayTestCase
         ]);
 
         $purchase = $this->gateway->purchase($this->parameters);
-        $purchase->setTestMode(true);
-        $purchase->setInstallation('ABC123');
-        $purchase->setMerchant('ACMECO');
         $purchase->setCard($cardWithoutAddress);
 
         $purchase->getData();

@@ -123,6 +123,27 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * Get the separate username if configured (more secure approach for basic auth) or fallback to merchant if not
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->parameters->get('username', $this->getParameter('merchant'));
+    }
+
+    /**
+     * Set basic auth username
+     *
+     * @param string $value
+     * @return Gateway
+     */
+    public function setUsername($value)
+    {
+        return $this->setParameter('username', $value);
+    }
+
+    /**
      * Get password
      *
      * @return string
