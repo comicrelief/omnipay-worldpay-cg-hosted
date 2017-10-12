@@ -186,7 +186,8 @@ class PurchaseRequestTest extends TestCase
         $this->assertEquals('https://secure.worldpay.com/jsp/merchant/xml/paymentService.jsp', $liveEndpoint);
     }
 
-    protected static function getMethod($name) {
+    protected static function getMethod($name)
+    {
         $class = new \ReflectionClass(PurchaseRequest::class);
         $method = $class->getMethod($name);
         $method->setAccessible(true);
