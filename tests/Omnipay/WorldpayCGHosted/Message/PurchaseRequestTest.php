@@ -174,15 +174,15 @@ class PurchaseRequestTest extends TestCase
 
     public function testGetEndpointProductionMode()
     {
-        $foo = self::getMethod('getEndpoint');
+        $getEndpoint = self::getMethod('getEndpoint');
         $purchase = clone $this->purchase;
 
         $purchase->setTestMode(true);
-        $testEndpoint = $foo->invokeArgs($purchase, []);
+        $testEndpoint = $getEndpoint->invokeArgs($purchase, []);
         $this->assertEquals('https://secure-test.worldpay.com/jsp/merchant/xml/paymentService.jsp', $testEndpoint);
 
         $purchase->setTestMode(false);
-        $liveEndpoint = $foo->invokeArgs($purchase, []);
+        $liveEndpoint = $getEndpoint->invokeArgs($purchase, []);
         $this->assertEquals('https://secure.worldpay.com/jsp/merchant/xml/paymentService.jsp', $liveEndpoint);
     }
 
