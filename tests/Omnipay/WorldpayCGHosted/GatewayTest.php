@@ -183,4 +183,16 @@ class GatewayTest extends GatewayTestCase
         $this->assertEquals('My great browser', $this->gateway->getUserAgentHeader());
         $this->assertEquals('10.0.0.99', $this->gateway->getUserIP());
     }
+
+    public function testUsernameParam()
+    {
+        // when username is not set
+        $this->assertNull($this->gateway->getParameter('username'));
+        // test that username falls back to merchant
+        $this->assertEquals($this->gateway->getParameter('merchant'), $this->gateway->getUsername());
+
+        // verify username parameter set works
+        $this->gateway->setParameter('username', 'test_username');
+        $this->assertEquals('test_username', $this->gateway->getUsername());
+    }
 }
