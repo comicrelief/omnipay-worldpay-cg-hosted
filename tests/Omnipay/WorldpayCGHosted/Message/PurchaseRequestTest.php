@@ -171,4 +171,25 @@ class PurchaseRequestTest extends TestCase
         $this->assertEquals('my-token-key', $this->purchase->getSession());
         $this->assertEquals('My great browser', $this->purchase->getUserAgentHeader());
     }
+
+    public function testGetEndpointProductionMode()
+    {
+        $foo = self::getMethod('getEndpoint');
+        $purchase = clone $this->purchase;
+
+        $purchase->setTestMode(true);
+        $testEndpoint = $foo->invokeArgs($purchase, []);
+        $this->assertEquals('https://secure-test.worldpay.com/jsp/merchant/xml/paymentService.jsp', $testEndpoint);
+
+        $purchase->setTestMode(false);
+        $liveEndpoint = $foo->invokeArgs($purchase, []);
+        $this->assertEquals('https://secure.worldpay.com/jsp/merchant/xml/paymentService.jsp', $liveEndpoint);
+    }
+
+    protected static function getMethod($name) {
+        $class = new \ReflectionClass(PurchaseRequest::class);
+        $method = $class->getMethod($name);
+        $method->setAccessible(true);
+        return $method;
+    }
 }
