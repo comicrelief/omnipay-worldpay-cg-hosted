@@ -34,6 +34,8 @@ class Notification extends AbstractResponse
     {
         $this->originIp = $notificationOriginIp;
 
+        $originalData = $data;
+
         if (empty($data)) {
             throw new InvalidResponseException();
         }
@@ -41,6 +43,12 @@ class Notification extends AbstractResponse
         $responseDom = new DOMDocument;
         if (!@$responseDom->loadXML($data)) {
             if (getenv('APPLICATION_ENV') === 'development') {
+                error_log('ORIG DATA WAS TYPE: ');
+                error_log(gettype($originalData));
+
+                error_log('ORIG DATA WAS: ');
+                error_log(print_r($originalData, true));
+
                 throw new InvalidResponseException('Non-XML notification body received: ' . $data);
             } else {
                 throw new InvalidResponseException('Non-XML notification body received');
