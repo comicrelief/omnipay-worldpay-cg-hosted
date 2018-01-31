@@ -26,10 +26,9 @@ class Notification extends AbstractResponse
     private $allowIpBasedOriginCheck = true;
 
     /** @noinspection PhpMissingParentConstructorInspection
-     * @param string|mixed                $data Actually a RequestBody?
+     * @param string                $data
      * @param string                $notificationOriginIp
      * @throws InvalidResponseException on missing data
-     * @todo unfuck comments
      */
     public function __construct($data, $notificationOriginIp)
     {
@@ -39,16 +38,15 @@ class Notification extends AbstractResponse
             throw new InvalidResponseException();
         }
 
-        if (is_object($data)) {
-            // Slim RequestBody in 'some' clients... - TODO!
-            $data = $data->getContents();
+        if (!is_string($data)) {
+            throw new InvalidResponseException('Data must be provided as a string');
         }
 
         $responseDom = new DOMDocument;
         if (!@$responseDom->loadXML($data)) {
             if (getenv('APPLICATION_ENV') === 'development') {
                 error_log('ORIG DATA WAS: ');
-                error_log($data->getContents());
+                error_log($data);
 
                 throw new InvalidResponseException('Non-XML notification body received: ' . $data);
             } else {
