@@ -47,11 +47,8 @@ class Notification extends AbstractResponse
         $responseDom = new DOMDocument;
         if (!@$responseDom->loadXML($data)) {
             if (getenv('APPLICATION_ENV') === 'development') {
-                error_log('ORIG DATA WAS TYPE: ');
-                error_log($data->getContents());
-
                 error_log('ORIG DATA WAS: ');
-                error_log(print_r($originalData, true));
+                error_log($data->getContents());
 
                 throw new InvalidResponseException('Non-XML notification body received: ' . $data);
             } else {
