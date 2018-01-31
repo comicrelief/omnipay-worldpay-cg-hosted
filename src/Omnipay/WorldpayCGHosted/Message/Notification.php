@@ -40,7 +40,11 @@ class Notification extends AbstractResponse
 
         $responseDom = new DOMDocument;
         if (!@$responseDom->loadXML($data)) {
-            throw new InvalidResponseException('Non-XML notification body received');
+            if (getenv('APPLICATION_ENV') === 'development') {
+                throw new InvalidResponseException('Non-XML notification body received: ' . $data);
+            } else {
+                throw new InvalidResponseException('Non-XML notification body received');
+            }
         }
 
         $document = simplexml_import_dom($responseDom->documentElement);
