@@ -38,6 +38,10 @@ class Notification extends AbstractResponse
             throw new InvalidResponseException();
         }
 
+        if (!is_string($data)) {
+            throw new InvalidResponseException('Data must be provided as a string');
+        }
+
         $responseDom = new DOMDocument;
         if (!@$responseDom->loadXML($data)) {
             throw new InvalidResponseException('Non-XML notification body received');
