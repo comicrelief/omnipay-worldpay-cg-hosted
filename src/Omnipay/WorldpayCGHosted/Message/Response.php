@@ -29,7 +29,7 @@ class Response extends AbstractResponse
 
         $responseDom = new DOMDocument;
         if (!@$responseDom->loadXML($data)) {
-            throw new InvalidResponseException('Non-XML notification response received');
+            throw new InvalidResponseException('Non-XML response received');
         }
 
         $this->data = @simplexml_import_dom(

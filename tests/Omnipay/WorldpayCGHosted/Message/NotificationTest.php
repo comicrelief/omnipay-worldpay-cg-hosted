@@ -220,7 +220,7 @@ class NotificationTest extends TestCase
 
     /**
      * @expectedException \Omnipay\Common\Exception\InvalidRequestException
-     * @expectedExceptionMessage Non-XML notification body received
+     * @expectedExceptionMessage Notification data not loaded as XML
      */
     public function testNonXmlResponse()
     {
@@ -252,7 +252,7 @@ class NotificationTest extends TestCase
 
     /**
      * @expectedException \Omnipay\Common\Exception\InvalidRequestException
-     * @expectedExceptionMessage Invalid response from payment gateway
+     * @expectedExceptionMessage Notification data empty
      */
     public function testEmptyData()
     {
