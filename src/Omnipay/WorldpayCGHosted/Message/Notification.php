@@ -3,7 +3,7 @@
 namespace Omnipay\WorldpayCGHosted\Message;
 
 use DOMDocument;
-use Omnipay\Common\Exception\InvalidResponseException;
+use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractResponse;
 
 /**
@@ -28,23 +28,23 @@ class Notification extends AbstractResponse
     /** @noinspection PhpMissingParentConstructorInspection
      * @param string                $data
      * @param string                $notificationOriginIp
-     * @throws InvalidResponseException on missing data
+     * @throws InvalidRequestException on missing or invalid data
      */
     public function __construct($data, $notificationOriginIp)
     {
         $this->originIp = $notificationOriginIp;
 
         if (empty($data)) {
-            throw new InvalidResponseException();
+            throw new InvalidRequestException('Notification data empty');
         }
 
         if (!is_string($data)) {
-            throw new InvalidResponseException('Data must be provided as a string');
+            throw new InvalidRequestException('Notification data not a string');
         }
 
         $responseDom = new DOMDocument;
         if (!@$responseDom->loadXML($data)) {
-            throw new InvalidResponseException('Non-XML notification body received');
+            throw new InvalidRequestException('Notification data not loaded as XML');
         }
 
         $document = simplexml_import_dom($responseDom->documentElement);
@@ -139,7 +139,8 @@ class Notification extends AbstractResponse
     }
 
     /**
-     * Indicates whether the given origin IP address matches *.worldpay.com based on reverse DNS.
+     * Indicates whether the given origin IP address matches *.worldpay.com based on reverse DNS, or IP as a fallback
+     * on containers that can't gethostbyaddr().
      *
      * @return bool
      */
