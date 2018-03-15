@@ -34,12 +34,12 @@ class Notification extends AbstractResponse
     {
         $this->originIp = $notificationOriginIp;
 
-        if (empty($data)) {
-            throw new InvalidRequestException('Notification data empty');
+        if (!is_string($data)) {
+            throw new InvalidRequestException(sprintf('Notification data not a string - got %s', gettype($data)));
         }
 
-        if (!is_string($data)) {
-            throw new InvalidRequestException('Notification data not a string');
+        if ($data === '') {
+            throw new InvalidRequestException('Notification data empty');
         }
 
         $responseDom = new DOMDocument;
@@ -155,7 +155,7 @@ class Notification extends AbstractResponse
             return false;
         }
 
-        $expectedEnd = 'worldpay.com';
+        $expectedEnd = 'worldpay.com'; // todo fix me
         $expectedPosition = strlen($hostname) - strlen($expectedEnd);
 
         if (strpos($hostname, $expectedEnd) === $expectedPosition) {
