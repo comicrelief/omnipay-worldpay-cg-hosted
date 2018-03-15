@@ -155,10 +155,10 @@ class Notification extends AbstractResponse
             return false;
         }
 
-        $expectedEnd = 'worldpay.com'; // todo fix me
+        $expectedEnd = '.worldpay.com';
         $expectedPosition = strlen($hostname) - strlen($expectedEnd);
 
-        if (strpos($hostname, $expectedEnd) === $expectedPosition) {
+        if (strpos($hostname, $expectedEnd) === $expectedPosition || $hostname === 'worldpay.com') {
             return true;
         }
 
