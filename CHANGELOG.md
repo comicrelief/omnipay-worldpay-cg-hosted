@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.0.0] - 2019-01-15
+- Updated codebase to use Omnipay 3.x
+- Requires PHP 7.1+
+
 ## [1.2.0] - 2018-09-16
 - Added StatusCode constants class
 

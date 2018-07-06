@@ -388,7 +388,6 @@ class PurchaseRequest extends AbstractRequest
                     $date->addAttribute('second', $tokenExpiryDateTime->format('s'));
                 }
             }
-
         } else { // paResponse is set => the whole order contents should be (info3DSecure, session)
             $session = $order->addChild('session'); // Empty tag is valid but setting an empty ID attr isn't
             $session->addAttribute('shopperIPAddress', $this->getClientIP());
@@ -435,8 +434,7 @@ class PurchaseRequest extends AbstractRequest
         $xml = $document->saveXML();
 
         $httpResponse = $this->httpClient
-            ->post($this->getEndpoint(), $headers, $xml)
-            ->send();
+            ->request('POST', $this->getEndpoint(), $headers, $xml);
 
         $this->response = new RedirectResponse(
             $this,

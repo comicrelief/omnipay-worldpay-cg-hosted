@@ -210,8 +210,7 @@ class Notification extends AbstractResponse
             return true;
         }
 
-        if (
-            $this->allowIpBasedOriginCheck &&
+        if ($this->allowIpBasedOriginCheck &&
             $this->originIp === $hostname &&
             (
                 strpos($hostname, '195.35.90') === 0 ||

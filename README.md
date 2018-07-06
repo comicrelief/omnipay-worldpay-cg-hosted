@@ -10,7 +10,7 @@ library and continue development of this but so far has been unsuccessful. For m
 changes implemented please see the [CHANGELOG](./CHANGELOG.md)
  
 [Omnipay](https://github.com/omnipay/omnipay) is a framework agnostic,
-multi-gateway payment processing library for PHP 5.6+. This package implements WorldPay XML Corporate Gateway Hosted
+multi-gateway payment processing library for PHP 7.1+. This package implements WorldPay XML Corporate Gateway Hosted
 support for Omnipay. This implementation has been guided by the [documentation available on WorldPay](http://support.worldpay.com/support/kb/gg/corporate-gateway-guide/content/home.htm) 
 
 ## Installation
