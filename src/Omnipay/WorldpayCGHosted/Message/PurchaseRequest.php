@@ -313,8 +313,7 @@ class PurchaseRequest extends AbstractRequest
         $xml = $document->saveXML();
 
         $httpResponse = $this->httpClient
-            ->post($this->getEndpoint(), $headers, $xml)
-            ->send();
+            ->request('POST', $this->getEndpoint(), $headers, $xml);
 
         $this->response = new RedirectResponse(
             $this,
