@@ -7,21 +7,12 @@ multi-gateway payment processing library for PHP 5.6+. This package implements W
 
 ## Installation
 
-Omnipay is installed via [Composer](http://getcomposer.org/). To install, simply
-add it to your `composer.json` file:
+Omnipay is installed via [Composer](http://getcomposer.org/). First, make sure you have composer installed by visiting
+https://getcomposer.org/download/ and following the instructions.
 
-```json
-{
-    "require": {
-        "comicrelief/omnipay-worldpay-cg-hosted": "^1.0.0"
-    }
-}
-```
+Then, install this package by requiring it through composer:
 
-And run composer to update your dependencies:
-
-    $ curl -s http://getcomposer.org/installer | php
-    $ php composer.phar update
+    $ php composer.phar require comicrelief/omnipay-worldpay-cg-hosted
 
 ## Basic Usage
 
