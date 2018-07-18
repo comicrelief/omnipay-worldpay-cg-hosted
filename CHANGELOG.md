@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.1.0] - 2018-09-05
+- Added support for Tokenising a card
+- Added documentation link to README
+
 ## [1.0.5] - 2018-09-04
 - [@catharsisjelly](https://github.com/catharsisjelly) took over maintainence of the codebase
 - Added CHANGELOG

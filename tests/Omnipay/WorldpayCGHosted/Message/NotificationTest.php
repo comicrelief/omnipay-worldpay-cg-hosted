@@ -250,6 +250,32 @@ class NotificationTest extends TestCase
         $this->assertEquals(500, $notification->getResponseStatusCode());
     }
 
+    public function testContainsTokenWithId()
+    {
+        $http = $this->getMockHttpResponse('NotificationWithToken.txt');
+        $notification = new Notification(
+            $http->getBody(true),
+            self::ORIGIN_IP_VALID
+        );
+
+        $this->assertTrue($notification->isValid());
+        $this->assertNotNull($notification->getPaymentTokenID());
+        $this->assertInstanceOf(\DateTimeInterface::class, $notification->getPaymentTokenExpiry());
+    }
+
+    public function testContainsTokenWithoutId()
+    {
+        $http = $this->getMockHttpResponse('NotificationRefusedWithToken.txt');
+        $notification = new Notification(
+            $http->getBody(true),
+            self::ORIGIN_IP_VALID
+        );
+
+        $this->assertTrue($notification->isValid());
+        $this->assertNull($notification->getPaymentTokenID());
+        $this->assertFalse($notification->getPaymentTokenExpiry());
+    }
+
     /**
      * @expectedException \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage Notification data empty

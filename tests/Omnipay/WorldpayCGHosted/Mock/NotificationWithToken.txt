@@ -1,0 +1,74 @@
+HTTP/1.1 200 OK
+Connection: close
+Server: VPS-3.033.00
+Date: Sat, 23 Feb 2013 19:45:00 GMT
+Content-type: text/xml
+Content-length: 2895
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE paymentService PUBLIC "-//WorldPay//DTD WorldPay PaymentService v1//EN"
+ "http://dtd.worldpay.com/paymentService_v1.dtd">
+<paymentService version="1.4" merchantCode="MYMERCHANT">
+  <notify>
+    <orderStatusEvent orderCode="jsxml3188573381">
+      <payment>
+        <paymentMethod>VISA_CREDIT-SSL</paymentMethod>
+        <amount value="100" currencyCode="EUR" exponent="2" debitCreditIndicator="credit"/>
+        <lastEvent>AUTHORISED</lastEvent>
+        <AVSResultCode description="NO RESPONSE FROM ACQUIRER"/>
+        <cardHolderName>J.Shopper</cardHolderName>
+        <issuerCountryCode>N/A</issuerCountryCode>
+        <balance accountType="IN_PROCESS_AUTHORISED">
+          <amount value="100" currencyCode="EUR" exponent="2" debitCreditIndicator="credit"/>
+        </balance>
+        <cardNumber>4444********1111</cardNumber>
+      </payment>
+      <token>
+        <authenticatedShopperID>shopperID12</authenticatedShopperID>
+        <tokenEventReference>TOK7854321</tokenEventReference>
+        <tokenReason>ClothesDepartment</tokenReason>
+        <tokenDetails tokenEvent="NEW">
+          <paymentTokenID>9902019934757792074</paymentTokenID> <!--Unique token identifier-->
+          <paymentTokenExpiry>
+            <date dayOfMonth="3" month="03" year="2019" hour="13" minute="18" second="59"/>
+          </paymentTokenExpiry>
+          <tokenEventReference>TOK7854321</tokenEventReference>
+          <tokenReason>ClothesDepartment</tokenReason>
+        </tokenDetails>
+        <paymentInstrument>
+          <cardDetails>
+            <expiryDate>
+              <date month="06" year="2019"/>
+            </expiryDate>
+            <cardHolderName>J.Shopper</cardHolderName>
+            <cardAddress>
+              <address>
+                <lastName>Shopper</lastName>
+                <address1>Worldpay</address1>
+                <address2>270-289 The Science Park</address2>
+                <address3>Milton Road</address3>
+                <postalCode>CB4 0WE</postalCode>
+                <city>Cambridge</city>
+                <countryCode>GB</countryCode>
+              </address>
+            </cardAddress>
+            <derived>
+              <cardBrand>VISA</cardBrand>
+              <cardSubBrand>VISA_CREDIT</cardSubBrand>
+              <issuerCountryCode>N/A</issuerCountryCode>
+              <obfuscatedPAN>4444********1111</obfuscatedPAN>
+            </derived>
+          </cardDetails>
+        </paymentInstrument>
+      </token>
+      <journal journalType="AUTHORISED">
+        <bookingDate>
+          <date dayOfMonth="10" month="04" year="2015"/>
+        </bookingDate>
+        <accountTx accountType="IN_PROCESS_AUTHORISED" batchId="54">
+          <amount value="100" currencyCode="EUR" exponent="2" debitCreditIndicator="credit"/>
+        </accountTx>
+      </journal>
+    </orderStatusEvent>
+  </notify>
+</paymentService>

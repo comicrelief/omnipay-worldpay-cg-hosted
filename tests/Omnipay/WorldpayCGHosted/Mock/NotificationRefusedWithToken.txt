@@ -1,0 +1,40 @@
+HTTP/1.1 200 OK
+Connection: close
+Server: VPS-3.033.00
+Date: Sat, 23 Feb 2013 19:45:00 GMT
+Content-type: text/xml
+Content-length: 1684
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE paymentService PUBLIC "-//Worldpay//DTD Worldpay PaymentService v1//EN"
+  "http://dtd.worldpay.com/paymentService_v1.dtd">
+<paymentService version="1.4" merchantCode="Your_merchant_code">
+    <notify>
+        <orderStatusEvent orderCode="ExampleOrder1">
+            <payment>
+                <paymentMethod>VISA-SSL</paymentMethod>
+                <amount value="0" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
+                <lastEvent>REFUSED</lastEvent>
+                <ISO8583ReturnCode code="34" description="FRAUD SUSPICION"/>
+                <CVCResultCode description="NOT SENT TO ACQUIRER"/>
+                <AVSResultCode description="NOT SENT TO ACQUIRER"/>
+                <AAVAddressResultCode description="UNKNOWN"/>
+                <AAVPostcodeResultCode description="UNKNOWN"/>
+                <AAVCardholderNameResultCode description="UNKNOWN"/>
+                <AAVTelephoneResultCode description="UNKNOWN"/>
+                <AAVEmailResultCode description="UNKNOWN"/>
+                <cardHolderName>test test</cardHolderName>
+                <issuerCountryCode>NL</issuerCountryCode>
+                <riskScore value="110"/>
+            </payment>
+            <token>
+                <authenticatedShopperID>SOME ID</authenticatedShopperID>
+                <tokenEventReference>1234</tokenEventReference>
+                <error code="1">Other error</error>
+            </token>
+            <journal journalType="REFUSED">
+                <bookingDate><date dayOfMonth="27" month="07" year="2018"/></bookingDate>
+            </journal>
+        </orderStatusEvent>
+    </notify>
+</paymentService>

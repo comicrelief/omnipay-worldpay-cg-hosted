@@ -17,6 +17,9 @@ class PurchaseRequest extends AbstractRequest
     const API_PATH = '/jsp/merchant/xml/paymentService.jsp';
     const API_VERSION = '1.4';
 
+    const TOKEN_TYPE_SHOPPER = 'shopper';
+    const TOKEN_TYPE_MERCHANT = 'merchant';
+
     /**
      * Get accept header
      *
@@ -204,6 +207,97 @@ class PurchaseRequest extends AbstractRequest
     }
 
     /**
+     * @return \DateTimeInterface
+     */
+    public function getTokenExpiry()
+    {
+        return $this->getParameter('tokenExpiryDate');
+    }
+
+    /**
+     * @param \DateTimeInterface $dateTime
+     * @return AbstractRequest
+     */
+    public function setTokenExpiry(\DateTimeInterface $dateTime)
+    {
+        return $this->setParameter('tokenExpiryDate', $dateTime);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreateToken()
+    {
+        return $this->getParameter('createToken');
+    }
+
+    /**
+     * @param string $tokenType
+     * @return AbstractRequest
+     */
+    public function setCreateToken($tokenType)
+    {
+        $allowedValues = [self::TOKEN_TYPE_SHOPPER, self::TOKEN_TYPE_MERCHANT];
+        if (!in_array($tokenType, $allowedValues)) {
+            throw new \InvalidArgumentException(
+                sprintf('Allowed values for createToken are %s', implode(', ', $allowedValues))
+            );
+        }
+        return $this->setParameter('createToken', $tokenType);
+    }
+
+    /**
+     * @return string
+     */
+    public function getTokenEventReference()
+    {
+        return $this->getParameter('tokenEventReference');
+    }
+
+    /**
+     * @param string $reference
+     * @return AbstractRequest
+     */
+    public function setTokenEventReference($reference)
+    {
+        return $this->setParameter('tokenEventReference', $reference);
+    }
+
+    /**
+     * @return string
+     */
+    public function getTokenReason()
+    {
+        return $this->getParameter('tokenReason');
+    }
+
+    /**
+     * @param string $reason
+     * @return AbstractRequest
+     */
+    public function setTokenReason($reason)
+    {
+        return $this->setParameter('tokenReason', $reason);
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthenticatedShopperID()
+    {
+        return $this->getParameter('authenticatedShopperID');
+    }
+
+    /**
+     * @param string $authenticatedShopperID
+     * @return AbstractRequest
+     */
+    public function setAuthenticatedShopperID($authenticatedShopperID)
+    {
+        return $this->setParameter('authenticatedShopperID', $authenticatedShopperID);
+    }
+
+    /**
      * Get data
      *
      * @return \SimpleXMLElement
@@ -248,6 +342,11 @@ class PurchaseRequest extends AbstractRequest
             if (!empty($email)) {
                 $shopper->addChild('shopperEmailAddress', $email);
             }
+
+            if (self::TOKEN_TYPE_SHOPPER === $this->getCreateToken()) {
+                $shopper->addChild('authenticatedShopperID', $this->getAuthenticatedShopperID());
+            }
+
             $browser = $shopper->addChild('browser');
             $browser->addChild('acceptHeader', $this->getAcceptHeader());
             $browser->addChild('userAgentHeader', $this->getUserAgentHeader());
@@ -267,6 +366,29 @@ class PurchaseRequest extends AbstractRequest
                 $address->addChild('state', $this->getCard()->getState());
                 $address->addChild('countryCode', $this->getCard()->getCountry());
             }
+
+            if ($this->getCreateToken()) {
+                $token = $order->addChild('createToken');
+                $token->addAttribute('tokenScope', $this->getCreateToken()); // or merchant
+
+                if ($this->getTokenEventReference()) {
+                    $token->addChild('tokenEventReference', $this->getTokenEventReference());
+                }
+                if ($this->getTokenReason()) {
+                    $token->addChild('tokenReason', $this->getTokenReason());
+                }
+
+                if ($tokenExpiryDateTime = $this->getTokenExpiry()) {
+                    $date = $token->addChild('paymentTokenExpiry')->addChild('date');
+                    $date->addAttribute('dayOfMonth', $tokenExpiryDateTime->format('d'));
+                    $date->addAttribute('month', $tokenExpiryDateTime->format('m'));
+                    $date->addAttribute('year', $tokenExpiryDateTime->format('Y'));
+                    $date->addAttribute('hour', $tokenExpiryDateTime->format('H'));
+                    $date->addAttribute('minute', $tokenExpiryDateTime->format('i'));
+                    $date->addAttribute('second', $tokenExpiryDateTime->format('s'));
+                }
+            }
+
         } else { // paResponse is set => the whole order contents should be (info3DSecure, session)
             $session = $order->addChild('session'); // Empty tag is valid but setting an empty ID attr isn't
             $session->addAttribute('shopperIPAddress', $this->getClientIP());

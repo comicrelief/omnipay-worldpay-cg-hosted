@@ -111,6 +111,38 @@ class Notification extends AbstractResponse
     }
 
     /**
+     * @return string|null
+     */
+    public function getPaymentTokenID()
+    {
+        if (empty($this->getTokenDetails())) {
+            return null;
+        }
+        return $this->getTokenDetails()->paymentTokenID->__toString();
+    }
+
+    /**
+     * @return bool|\DateTimeImmutable
+     */
+    public function getPaymentTokenExpiry()
+    {
+        if (null === $this->getTokenDetails()) {
+            return false;
+        }
+
+        /** @var \SimpleXMLElement $expiryNode */
+        $expiryNode = $this->getTokenDetails()->paymentTokenExpiry->date;
+        $attributes = $expiryNode->attributes();
+        $date = $attributes['year'] . $attributes['month'] . $attributes['dayOfMonth'];
+        $time = $attributes['hour'] . $attributes['minute'] . $attributes['second'];
+
+        return \DateTimeImmutable::createFromFormat(
+            'Ymj His',
+            $date . ' ' . $time
+        );
+    }
+
+    /**
      * Gets the body of the response your app should provide to the Worldpay bot for this request.
      *
      * @return string
@@ -136,6 +168,22 @@ class Notification extends AbstractResponse
                 self::RESPONSE_CODE_SUCCESS :
                 self::RESPONSE_CODE_ERROR
         );
+    }
+
+    /**
+     * @return null|\SimpleXMLElement
+     */
+    public function getTokenDetails()
+    {
+        if (null === $this->getToken()) {
+            return null;
+        }
+
+        if (empty($this->getToken()->tokenDetails)) {
+            return null;
+        }
+
+        return $this->getToken()->tokenDetails;
     }
 
     /**
@@ -174,5 +222,21 @@ class Notification extends AbstractResponse
         }
 
         return false;
+    }
+
+    /**
+     * @return null|\SimpleXMLElement
+     */
+    private function getToken()
+    {
+        if (empty($this->getOrder())) {
+            return null;
+        }
+
+        if (!isset($this->getOrder()->token)) {
+            return null;
+        }
+
+        return $this->getOrder()->token;
     }
 }
