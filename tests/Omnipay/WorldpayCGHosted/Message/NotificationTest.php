@@ -15,7 +15,7 @@ class NotificationTest extends TestCase
         $http = $this->getMockHttpResponse('NotificationAuthorised.txt');
 
         $notification = new Notification(
-            $http->getBody(true),
+            $http->getBody()->__toString(),
             self::ORIGIN_IP_VALID
         );
 
@@ -37,7 +37,7 @@ class NotificationTest extends TestCase
         $http = $this->getMockHttpResponse('NotificationSentForAuth.txt');
 
         $notification = new Notification(
-            $http->getBody(true),
+            $http->getBody()->__toString(),
             self::ORIGIN_IP_VALID
         );
 
@@ -57,7 +57,7 @@ class NotificationTest extends TestCase
         $http = $this->getMockHttpResponse('NotificationAuthorised.txt');
 
         $notification = new Notification(
-            $http->getBody(true),
+            $http->getBody()->__toString(),
             self::ORIGIN_IP_BAD
         );
 
@@ -77,7 +77,7 @@ class NotificationTest extends TestCase
         $http = $this->getMockHttpResponse('NotificationAuthorised.txt');
 
         $notification = new Notification(
-            $http->getBody(true),
+            $http->getBody()->__toString(),
             'not-a-real-ip'
         );
 
@@ -97,7 +97,7 @@ class NotificationTest extends TestCase
         $http = $this->getMockHttpResponse('NotificationAuthorised.txt');
 
         $notification = new Notification(
-            $http->getBody(true),
+            $http->getBody()->__toString(),
             '' // no origin IP
         );
 
@@ -120,7 +120,7 @@ class NotificationTest extends TestCase
         $http = $this->getMockHttpResponse('NotificationAuthorisedMissingOrderCode.txt');
 
         $notification = new Notification(
-            $http->getBody(true),
+            $http->getBody()->__toString(),
             self::ORIGIN_IP_VALID
         );
 
@@ -143,7 +143,7 @@ class NotificationTest extends TestCase
         $http = $this->getMockHttpResponse('NotificationCaptured.txt');
 
         $notification = new Notification(
-            $http->getBody(true),
+            $http->getBody()->__toString(),
             self::ORIGIN_IP_VALID
         );
 
@@ -163,7 +163,7 @@ class NotificationTest extends TestCase
         $http = $this->getMockHttpResponse('NotificationRefused.txt');
 
         $notification = new Notification(
-            $http->getBody(true),
+            $http->getBody()->__toString(),
             self::ORIGIN_IP_VALID
         );
 
@@ -183,7 +183,7 @@ class NotificationTest extends TestCase
         $http = $this->getMockHttpResponse('NotificationCancelled.txt');
 
         $notification = new Notification(
-            $http->getBody(true),
+            $http->getBody()->__toString(),
             self::ORIGIN_IP_VALID
         );
 
@@ -203,7 +203,7 @@ class NotificationTest extends TestCase
         $http = $this->getMockHttpResponse('NotificationRefundRequest.txt');
 
         $notification = new Notification(
-            $http->getBody(true),
+            $http->getBody()->__toString(),
             self::ORIGIN_IP_VALID
         );
 
@@ -226,7 +226,7 @@ class NotificationTest extends TestCase
     {
         $http = $this->getMockHttpResponse('NotificationNonXml.txt');
         new Notification(
-            $http->getBody(true),
+            $http->getBody()->__toString(),
             self::ORIGIN_IP_VALID
         );
     }
@@ -235,7 +235,7 @@ class NotificationTest extends TestCase
     {
         $http = $this->getMockHttpResponse('NotificationUnexpectedXml.txt');
         $notification = new Notification(
-            $http->getBody(true),
+            $http->getBody()->__toString(),
             self::ORIGIN_IP_VALID
         );
 
