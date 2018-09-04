@@ -2,6 +2,11 @@
 
 **WorldPay Hosted driver for the Omnipay PHP payment processing library**
 
+This was forked from [comicrelief/omnipay-worldpay-cg-hosted](https://github.com/comicrelief/omnipay-worldpay-cg-hosted)
+which is now not a maintained library. [@catharsisjelly](https://github.com/catharsisjelly) did offer to take over the
+library and continue development of this but so far has had no this has unsuccessful. For more information on the
+changes implemented please see the [CHANGELOG](./CHANGELOG.md)
+ 
 [Omnipay](https://github.com/omnipay/omnipay) is a framework agnostic,
 multi-gateway payment processing library for PHP 5.6+. This package implements WorldPay XML Corporate Gateway Hosted support for Omnipay.
 
