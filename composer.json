@@ -1,5 +1,5 @@
 {
-  "name": "comicrelief/omnipay-worldpay-cg-hosted",
+  "name": "catharsisjelly/omnipay-worldpay-cg-hosted",
   "type": "library",
   "description": "WorldPay Hosted Corporate Gateway driver for the Omnipay payment processing library",
   "keywords": [
@@ -21,6 +21,10 @@
     {
       "name": "Noel Light-Hilary",
       "email": "n.light-hilary@comicrelief.com"
+    },
+    {
+      "name": "Chris Lock",
+      "email": "code@catharsis.co.uk"
     }
   ],
   "autoload": {
