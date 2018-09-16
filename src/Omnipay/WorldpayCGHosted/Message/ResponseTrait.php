@@ -101,6 +101,9 @@ trait ResponseTrait
         );
     }
 
+    /**
+     * @return null|\SimpleXMLElement
+     */
     public function getOrder()
     {
         if (isset($this->data->orderStatusEvent)) {
