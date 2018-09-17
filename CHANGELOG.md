@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.0] - 2018-09-16
+- Added StatusCode constants class
+
 ## [1.1.0] - 2018-09-05
 - Added support for Tokenising a card
 - Added documentation link to README

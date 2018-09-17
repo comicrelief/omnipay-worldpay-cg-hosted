@@ -6,7 +6,7 @@
 
 This was forked from [comicrelief/omnipay-worldpay-cg-hosted](https://github.com/comicrelief/omnipay-worldpay-cg-hosted)
 which is now not a maintained library. [@catharsisjelly](https://github.com/catharsisjelly) did offer to take over the
-library and continue development of this but so far has had no this has unsuccessful. For more information on the
+library and continue development of this but so far has been unsuccessful. For more information on the
 changes implemented please see the [CHANGELOG](./CHANGELOG.md)
  
 [Omnipay](https://github.com/omnipay/omnipay) is a framework agnostic,
@@ -15,21 +15,11 @@ support for Omnipay. This implementation has been guided by the [documentation a
 
 ## Installation
 
-Omnipay is installed via [Composer](http://getcomposer.org/). To install, simply
-add it to your `composer.json` file:
+This library is best installed via [Composer](http://getcomposer.org/) e.g.
 
-```json
-{
-    "require": {
-        "comicrelief/omnipay-worldpay-cg-hosted": "^1.0.0"
-    }
-}
+```bash
+composer require catharsisjelly/omnipay-worldpay-cg-hosted
 ```
-
-And run composer to update your dependencies:
-
-    $ curl -s http://getcomposer.org/installer | php
-    $ php composer.phar update
 
 ## Basic Usage
 
@@ -81,11 +71,11 @@ If you are having general issues with Omnipay, we suggest posting on
 [omnipay tag](https://stackoverflow.com/questions/tagged/omnipay) so it can be
 easily found.
 
-If you want to keep up to date with release anouncements, discuss ideas for the
+If you want to keep up to date with release announcements, discuss ideas for the
 project, or ask more detailed questions, there is also a
 [mailing list](https://groups.google.com/forum/#!forum/omnipay) which you can
 subscribe to.
 
 If you believe you have found a bug, please report it using the
-[issue tracker](https://github.com/comicrelief/omnipay-worldpay-cg-hosted/issues), or
+[issue tracker](https://github.com/catharsisjelly/omnipay-worldpay-cg-hosted/issues), or
 better yet, fork the library and submit a pull request.
